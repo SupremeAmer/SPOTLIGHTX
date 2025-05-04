@@ -1,145 +1,166 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <marquee behavior="scroll" direction="left" style="background-color: #333; color: #fff; padding: 10px; font-size: 18px;">Welcome to $SLX🚀💰💰🚀🎉</marquee>
-    <title>Mining Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            margin: 0;
-        }
-        .mining {
-            text-align: center;
-            background: green;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: auto;
-        }
-        .mined-coins {
-            font-size: 2em;
-            margin: 20px 0;
-            color: orange;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-        }
-        .footer {
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            background: orange;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        .timer {
-            font-size: 2em;
-            margin: 20px 0;
-            color: red;
-        }
-    </style>
+  <meta Here's an updated HTML, CSS, and JavaScript code with a task section:
+
+HTML
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mining Page</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="mining">
-        <h1>SPOTLIGHTX💰⛏️⛏️</h1>
-        <div class="mined-coins" id="minedCoins">Mined Coins: 0</div>
-        <div class="timer" id="timer">Time remaining: 12 hours</div>
-        <button onclick="startMining()">Start Mining</button>
+  <div class="container">
+    <h1>Mining Page</h1>
+    <div class="mining-details">
+      <p>Balance: <span id="balance">0</span> SA</p>
+      <p>Mining Speed: <span id="mining-speed">0</span> SA/hour</p>
+      <button id="start-mining">Start Mining</button>
+      <button id="stop-mining" disabled>Stop Mining</button>
     </div>
-    <div class="footer">
-        <button onclick="window.location.href='index.html'">🏠</button>
-        <button onclick="window.location.href='Task.htm'">📜</button>
-        <button onclick="window.location.href='wallet.html'">💸</button>
+    <div class="mining-progress">
+      <p>Mining Progress: <span id="mining-progress">0%</span></p>
+      <progress id="progress-bar" value="0" max="100"></progress>
     </div>
-    <script>
+    <div class="task-section">
+      <h2>Tasks</h2>
+      <div class="task">
+        <p>Task 1: Click me twice to earn 10 SA</p>
+        <button id="task-1" class="task-button">Click</button>
+        <span id="task-1-status"></span>
+      </div>
+      <div class="task">
+        <p>Task 2: Click me twice to earn 10 SA</p>
+        <button id="task-2" class="task-button">Click</button>
+        <span id="task-2-status"></span>
+      </div>
+    </div>
+  </div>
 
-let minedCoins = parseFloat(localStorage.getItem('minedCoins')) || 0;
-let miningInterval;
-let timerInterval;
-let elapsedTime = parseInt(localStorage.getItem('elapsedTime')) || 0;
-let remainingTime = localStorage.getItem('remainingTime');
+  <script src="script.js"></script>
+</body>
+</html>l      <button id="stop-mining" disabled>Stop Mining</button>
+    </div>
+    <div class="mining-progress">
+      <p>Mining Progress: <span id="mining-progress">0%</span></p>
+      <progress id="progress-bar" value="0" max="100"></progress>
+    </div>
+    <div class="task-section">
+      <h2>Tasks</h2>
+      <div class="task">
+        <p>Task 1: Click me twice to earn 10 SA</p>
+        <button id="task-1" class="task-button">Click</button>
+        <span id="task-1-status"></span>
+      </div>
+      <div class="task">
+        <p>Task 2: Click me twice to earn 10 SA</p>
+        <button id="task-2" class="task-button">Click</button>
+        <span id="task-2-status"></span>
+      </div>
+    </div>
+  </div>
 
-if (!remainingTime) {
-  remainingTime = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
-  localStorage.setItem('remainingTime', remainingTime);
-}
-
-function startMining() {
-  if (!miningInterval) {
-    miningInterval = setInterval(mineCoins, 1000); // mine coins every second
-    timerInterval = setInterval(updateTimer, 1000); // update timer every second
-  }
-}
-
-function mineCoins() {
-  minedCoins += 0.0002; // increment mined coins by 0.0002
-  localStorage.setItem('minedCoins', minedCoins);
-  updateMinedCoinsDisplay();
-}
-
-function updateMinedCoinsDisplay() {
-  document.getElementById('minedCoins').textContent = `Mined Coins: ${minedCoins.toFixed(4)}`;
-}
-
-function updateTimer() {
-  elapsedTime += 1000; // increment elapsed time by 1 second
-  localStorage.setItem('elapsedTime', elapsedTime);
-  remainingTime = 12 * 60 * 60 * 1000 - elapsedTime;
-  localStorage.setItem('remainingTime', remainingTime);
-  if (remainingTime <= 0) {
-    stopMining();
-  } else {
-    const hours = Math.floor(remainingTime / (60 * 60 * 1000));
-    const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
-    const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
-    const formattedTime = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}.`;
-    document.getElementById('timer').textContent = formattedTime;
-  }
-}
-
-function padZero(value, length = 2) {
-  return String(value).padStart(length, '0');
-}
-
-function stopMining() {
-  clearInterval(miningInterval);
-  clearInterval(timerInterval);
-  alert('Mining stopped!');
-}
-
-window.onload = function() {
-  updateMinedCoinsDisplay();
-  updateTimer();
-  if (localStorage.getItem('elapsedTime')) {
-    startMining();
-  }
-};
-
-// Continue mining even when page is offline
-window.addEventListener('beforeunload', function() {
-  localStorage.setItem('minedCoins', minedCoins);
-  localStorage.setItem('elapsedTime', elapsedTime);
-  localStorage.setItem('remainingTime', remainingTime);
-});
-
-window.addEventListener('offline', function() {
-  localStorage.setItem('minedCoins', minedCoins);
-  localStorage.setItem('elapsedTime', elapsedTime);
-  localStorage.setItem('remainingTime', remainingTime);
-});
-
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>
+```
+
+CSS (in styles.css file)
+```
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mining-details {
+  margin-bottom: 20px;
+}
+
+#start-mining {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#stop-mining {
+  background-color: #e74c3c;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.mining-progress {
+  margin-top: 20px;
+}
+
+#progress-bar {
+  width: 100%;
+  height: 20px;
+  border-radius: 5px;
+}
+
+.task-section {
+  margin-top: 40px;
+}
+
+.task {
+  margin-bottom: 20px;
+}
+
+.task-button {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+```
+
+JavaScript (in script.js file)
+```
+let balance = 0;
+let task1Clicks = 0;
+let task2Clicks = 0;
+
+document.getElementById('start-mining').addEventListener('click', () => 
+  // mining logic
+});
+
+document.getElementById('task-1').addEventListener('click', () => {
+  task1Clicks++;
+  document.getElementById('task-1-status').textContent = `Clicked ${task1Clicks} time(s)`;
+  if (task1Clicks === 2) {
+    balance += 10;
+    document.getElementById('balance').textContent = balance;
+    document.getElementById('task-1').disabled = true;
+    document.getElementById('task-1-status').textContent = 'Completed!';
+  }
+});
+
+document.getElementById('task-2').addEventListener('click', () => {
+  task2Clicks++;
+  document.getElementById('task-2-status').textContent = `Clicked ${task2Clicks} time(s)`;
+  if (task2Clicks === 2) {
+    balance += 10;
+    document.getElementById('balance').textContent = balance;
+    document.getElementById('task-2').disabled = true;
