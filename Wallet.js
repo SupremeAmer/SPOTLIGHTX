@@ -72,4 +72,12 @@ document.getElementById('save-wallet-address-btn').addEventListener('click', () 
     document.getElementById('wallet-address-status').textContent = error.message;
   }
 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const balance = localStorage.getItem('balance');
+    if (document.getElementById('balance')) {
+      document.getElementById('balance').textContent = balance;
+    }
+  });
+
  
