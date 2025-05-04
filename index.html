@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +33,13 @@
       </div>
     </div>
   </div>
+  
+<footer style="position: fixed; bottom: 0; width: 100%; background-color: #333; padding: 10px; text-align: center;">
+  <button style="background-color: #333; color: #fff; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer;" onclick="window.location.href='index.html'">Home</button>
+  <button style="background-color: #333; color: #fff; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer;" onclick="window.location.href='friends.html'">Friends</button>
+  <button style="background-color: #333; color: #fff; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer;" onclick="window.location.href='wallet.html'">Wallet</button>
+</footer>
+
   <script src="script.js"></script>
 
 <style>
@@ -192,7 +198,7 @@ setInterval(() => {
   localStorage.setItem('balance', balance);
   localStorage.setItem('progress', progress);
   localStorage.setItem('task1Clicks', task1Clicks);
-  localStorage.setItem('task2Clicks', task2Clicks);
+  localStorage.setItem('task2Clicks', task2Clicks); 
 }, 1000);
 </script>
 </body>
