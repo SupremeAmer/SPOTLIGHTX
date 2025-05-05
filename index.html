@@ -14,7 +14,6 @@
       <p>Mining Speed: <span id="mining-speed">0</span> SA/hour</p>
       <button id="start-mining">Start Mining</button>
       <button id="stop-mining" disabled>Stop Mining</button>
-      <button id="boast-mining" disabled>Boast</button>
     </div>
     <div class="mining-progress">
       <p>Mining Progress: <span id="mining-progress">0%</span></p>
@@ -33,10 +32,6 @@
         <span id="task-2-status"></span>
       </div>
     </div>
-    <div class="wallet-section">
-      <button id="connect-wallet">Connect Wallet</button>
-      <p id="wallet-address" style="display:none;">Connected Wallet: <span id="address"></span></p>
-    </div>
   </div>
   
 <footer style="position: fixed; bottom: 0; width: 100%; background-color: #333; padding: 10px; text-align: center;">
@@ -48,7 +43,69 @@
   <script src="script.js"></script>
 
 <style>
-/* Existing styles unchanged */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mining-details {
+  margin-bottom: 20px;
+}
+
+#start-mining {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#stop-mining {
+  background-color: #e74c3c;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.mining-progress {
+  margin-top: 20px;
+}
+
+#progress-bar {
+  width: 100%;
+  height: 20px;
+  border-radius: 5px;
+}
+
+.task-section {
+  margin-top: 40px;
+}
+
+.task {
+  margin-bottom: 20px;
+}
+
+.task-button {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 </style>
 <script>
 let balance = 0;
@@ -57,6 +114,92 @@ let miningInterval = null;
 let progress = 0;
 let task1Clicks = 0;
 let task2Clicks = 0;
+
+document.getElementById('start-mining').addEventListener('click', () => {
+  miningSpeed = 10; 
+  miningInterval = setInterval(() => {
+    balance += miningSpeed / 3600; 
+    progress += 1000;
+    document.getElementById('balance').textContent = balance.toFixed(2);
+    document.getElementById('mining-progress').textContent = `${(progress / 1000000000 * 100).toFixed(2)}%`;
+    document.getElementById('progress-bar').value = progress;
+    if (progress >= 1000000000) {
+      clearInterval(miningInterval);
+      document.getElementById('start-mining').disabled = false;
+      document.getElementById('stop-mining').disabled = true;
+    }
+  }, 1);
+  document.getElementById('start-mining').disabled = true;
+  document.getElementById('stop-mining').disabled = false;
+});
+
+document.getElementById('stop-mining').addEventListener('click', () => {
+  clearInterval(miningInterval);
+  document.getElementById('start-mining').disabled = false;
+  document.getElementById
+
+document.getElementById('stop-mining').disabled = true;
+});
+
+document.getElementById('task-1').addEventListener('click', () => {
+  task1Clicks++;
+  document.getElementById('task-1-status').textContent = `Clicked ${task1Clicks} time(s)`;
+  if (task1Clicks === 2) {
+    balance += 10;
+    document.getElementById('balance').textContent = balance.toFixed(2);
+    document.getElementById('task-1').disabled = true;
+    document.getElementById('task-1-status').textContent = 'Completed!';
+  }
+});
+
+document.getElementById('task-2').addEventListener('click', () => {
+  task2Clicks++;
+  document.getElementById('task-2-status').textContent = `Clicked ${task2Clicks} time(s)`;
+  if (task2Clicks === 2) {
+    balance += 10;
+    document.getElementById('balance').textContent = balance.toFixed(2);
+    document.getElementById('task-2').disabled = true;
+    document.getElementById('task-2-status').textContent = 'Completed!';
+  }
+});
+
+// Load saved data
+if (localStorage.getItem('balance')) {
+  balance = parseFloat(localStorage.getItem('balance'));
+  document.getElementById('balance').textContent = balance.toFixed(2);
+}
+
+if (localStorage.getItem('progress')) {
+  progress = parseInt(localStorage.getItem('progress'));
+  document.getElementById('progress-bar').value = progress;
+  document.getElementById('mining-progress').textContent = `${(progress / 1000000000 * 100).toFixed(2)}%`;
+}
+
+if (localStorage.getItem('task1Clicks')) {
+  task1Clicks = parseInt(localStorage.getItem('task1Clicks'));
+  document.getElementById('task-1-status').textContent = `Clicked ${task1Clicks} time(s)`;
+  if (task1Clicks >= 2) {
+    document.getElementById('task-1').disabled = true;
+    document.getElementById('task-1-status').textContent = 'Completed!';
+  }
+}
+
+if (localStorage.getItem('task2Clicks')) {
+  task2Clicks = parseInt(localStorage.getItem('task2Clicks'));
+  document.getElementById('task-2-status').textContent = `Clicked ${task2Clicks} time(s)`;
+  if (task2Clicks >= 2) {
+    document.getElementById('task-2').disabled = true;
+    document.getElementById('task-2-status').textContent = 'Completed!';
+  }
+}
+
+// Save data on change
+setInterval(() => {
+  localStorage.setItem('balance', balance);
+  localStorage.setItem('progress', progress);
+  localStorage.setItem('task1Clicks', task1Clicks);
+  localStorage.setItem('task2Clicks', task2Clicks); 
+}, 1000);
 
 // Connect Wallet
 document.getElementById('connect-wallet').addEventListener('click', async () => {
