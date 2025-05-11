@@ -1,0 +1,134 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #333;
+}
+
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.username {
+    color: #ffffff;
+}
+
+.balance {
+    color: #c0c0c0;
+}
+
+/* Mining Rig Section */
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e1e1e;
+}
+
+.mining-rig {
+    position: relative;
+    width: 250px;
+    height: 400px;
+}
+
+.rig-image {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.logo-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
+
+.logo-overlay img {
+    width: 50px;
+}
+
+/* Claim Button */
+.footer {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    background-color: #1a1a1a;
+    border-top: 1px solid #333;
+}
+
+.claim-button {
+    background-color: #4caf50;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.claim-button:hover {
+    background-color: #388e3c;
+}
+
+.claim-amount {
+    font-weight: bold;
+}
+
+/* Navigation Bar */
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    background-color: #1a1a1a;
+    border-top: 1px solid #333;
+    padding: 10px 0;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #c0c0c0;
+}
+
+.nav-item.active {
+    color: #ffffff;
+}
+
+.nav-icon {
+    font-size: 20px;
+}
+
+.nav-label {
+    font-size: 12px;
+    margin-top: 5px;
+}
