@@ -1,281 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SupremeAmer Mining</title>
-  <link rel="stylesheet" href="stles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SupremeAmer Token Mining</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>SupremeAmer Token Mining</h1>
-    <div class="mining-details">
-      <p>Balance: <span id="balance">0</span> SA</p>
-      <p>Mining Speed: <span id="mining-speed">0</span> SA/hour</p>
-      <button id="start-mining">Start Mining</button>
-      <button id="stop-mining" disabled>Stop Mining</button>
-        <div class="wallet-section">
-      <button id="connect-wallet">Connect Wallet</button>
-      <p id="wallet-address" style="display:none;">Connected Wallet: <span id="address"></span></p>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="user-info">
+                <span class="username">mrsabi3</span>
+                <span class="balance">400.000</span>
+            </div>
+        </header>
+
+        <!-- Mining Rig Section -->
+        <main class="main-content">
+            <div class="mining-rig">
+                <img src="mining-rig-placeholder.png" alt="Mining Rig" class="rig-image">
+                <div class="logo-overlay">
+                    <img src="logo-placeholder.png" alt="Logo">
+                </div>
+            </div>
+        </main>
+
+        <!-- Claim Section -->
+        <footer class="footer">
+            <button class="claim-button">
+                Claim <span class="claim-amount">50.00000</span>
+            </button>
+        </footer>
+
+        <!-- Navigation Section -->
+        <nav class="navigation">
+            <div class="nav-item active">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </div>
+            <div class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">Tasks</span>
+            </div>
+            <div class="nav-item">
+                <span class="nav-icon">🚀</span>
+                <span class="nav-label">Boosts</span>
+            </div>
+            <div class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Friends</span>
+            </div>
+        </nav>
     </div>
-            <button id="boast-mining" disabled>Boast</button>
-
-    </div>
-    <div class="mining-progress">
-      <p>Mining Progress: <span id="mining-progress">0%</span></p>
-      <progress id="progress-bar" value="0" max="1000000000"></progress>
-    </div>
-    <div class="task-section">
-      <h2>Tasks</h2>
-      <div class="task">
-        <p>Follow us on Telegram to earn 10 SA</p>
-        <button id="task-1" class="task-button">Click</button>
-        <span id="task-1-status"></span>
-      </div>
-      <div class="task">
-        <p>Follow us on instagram to earn 10 SA</p>
-        <button id="task-2" class="task-button">Click</button>
-        <span id="task-2-status"></span>
-      </div>
-      <div class="task">
-        <p>Follow us on YouTube to earn 10 SA</p>
-        <button id="task-2" class="task-button">Click</button>
-        <span id="task-2-status"></span>
-      </div>
-      <div class="task">
-        <p>Follow us on facebook to earn 10 SA</p>
-        <button id="task-2" class="task-button">Click</button>
-        <span id="task-2-status"></span>
-      </div>
-      <div class="task">
-        <p> Follow us on X  to earn 10 SA</p>
-        <button id="task-2" class="task-button">Click</button>
-        <span id="task-2-status"></span>
-      </div>
-    </div>
-  </div>
-  
-<footer style="position: fixed; bottom: 0; width: 100%; background-color: orange; padding: 10px; text-align: center;">
-  <button style="background-color: #333; color: #fff; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer;" onclick="window.location.href='index.html'">Home</button>
-  <button style="background-color: #333; color: #fff; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer;" onclick="window.location.href='friends.html'">Friends</button>
-  <button style="background-color: #333; color: #fff; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer;" onclick="window.location.href='wallet.html'">Wallet</button>
-</footer>
-
-  <script src="script.js"></script>
-
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background-color: #000;
-}
-
-.container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.mining-details {
-  margin-bottom: 25px;
-}
-
-#start-mining {
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#stop-mining {
-  background-color: #e74c3c;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.mining-progress {
-  margin-top: 20px;
-}
-
-#progress-bar {
-  width: 100%;
-  height: 20px;
-  border-radius: 5px;
-}
-
-.task-section {
-  margin-top: 40px;
-}
-
-.task {
-  margin-bottom: 20px;
- background-color: #666;
-border-radius: 23px;
-  border: 2px solid orangered;
-
-}
-
-.task-button {
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-</style>
-<script>
-let balance = 0;
-let miningSpeed = 0;
-let miningInterval = null;
-let progress = 0;
-let task1Clicks = 0;
-let task2Clicks = 0;
-
-document.getElementById('start-mining').addEventListener('click', () => {
-  miningSpeed = 10; 
-  miningInterval = setInterval(() => {
-    balance += miningSpeed / 3600; 
-    progress += 1000;
-    document.getElementById('balance').textContent = balance.toFixed(2);
-    document.getElementById('mining-progress').textContent = `${(progress / 1000000000 * 100).toFixed(2)}%`;
-    document.getElementById('progress-bar').value = progress;
-    if (progress >= 1000000000) {
-      clearInterval(miningInterval);
-      document.getElementById('start-mining').disabled = false;
-      document.getElementById('stop-mining').disabled = true;
-    }
-  }, 1);
-  document.getElementById('start-mining').disabled = true;
-  document.getElementById('stop-mining').disabled = false;
-});
-
-document.getElementById('stop-mining').addEventListener('click', () => {
-  clearInterval(miningInterval);
-  document.getElementById('start-mining').disabled = false;
-  document.getElementById
-
-document.getElementById('stop-mining').disabled = true;
-});
-
-document.getElementById('task-1').addEventListener('click', () => {
-  task1Clicks++;
-  document.getElementById('task-1-status').textContent = `Clicked ${task1Clicks} time(s)`;
-  if (task1Clicks === 2) {
-    balance += 10;
-    document.getElementById('balance').textContent = balance.toFixed(2);
-    document.getElementById('task-1').disabled = true;
-    document.getElementById('task-1-status').textContent = 'Completed!';
-  }
-});
-
-document.getElementById('task-2').addEventListener('click', () => {
-  task2Clicks++;
-  document.getElementById('task-2-status').textContent = `Clicked ${task2Clicks} time(s)`;
-  if (task2Clicks === 2) {
-    balance += 10;
-    document.getElementById('balance').textContent = balance.toFixed(2);
-    document.getElementById('task-2').disabled = true;
-    document.getElementById('task-2-status').textContent = 'Completed!';
-  }
-});
-
-// Load saved data
-if (localStorage.getItem('balance')) {
-  balance = parseFloat(localStorage.getItem('balance'));
-  document.getElementById('balance').textContent = balance.toFixed(2);
-}
-
-if (localStorage.getItem('progress')) {
-  progress = parseInt(localStorage.getItem('progress'));
-  document.getElementById('progress-bar').value = progress;
-  document.getElementById('mining-progress').textContent = `${(progress / 1000000000 * 100).toFixed(2)}%`;
-}
-
-if (localStorage.getItem('task1Clicks')) {
-  task1Clicks = parseInt(localStorage.getItem('task1Clicks'));
-  document.getElementById('task-1-status').textContent = `Clicked ${task1Clicks} time(s)`;
-  if (task1Clicks >= 2) {
-    document.getElementById('task-1').disabled = true;
-    document.getElementById('task-1-status').textContent = 'Completed!';
-  }
-}
-
-if (localStorage.getItem('task2Clicks')) {
-  task2Clicks = parseInt(localStorage.getItem('task2Clicks'));
-  document.getElementById('task-2-status').textContent = `Clicked ${task2Clicks} time(s)`;
-  if (task2Clicks >= 2) {
-    document.getElementById('task-2').disabled = true;
-    document.getElementById('task-2-status').textContent = 'Completed!';
-  }
-}
-
-// Save data on change
-setInterval(() => {
-  localStorage.setItem('balance', balance);
-  localStorage.setItem('progress', progress);
-  localStorage.setItem('task1Clicks', task1Clicks);
-  localStorage.setItem('task2Clicks', task2Clicks); 
-}, 1000);
-
-// Connect Wallet
-document.getElementById('connect-wallet').addEventListener('click', async () => {
-  if (typeof window.ethereum !== 'undefined') {
-    try {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      const walletAddress = accounts[0];
-      document.getElementById('address').textContent = walletAddress;
-      document.getElementById('wallet-address').style.display = 'block';
-      document.getElementById('boast-mining').disabled = false;
-    } catch (error) {
-      console.error("User denied wallet connection.");
-    }
-  } else {
-    alert("MetaMask is not installed. Please install it to use this feature.");
-  }
-});
-
-// Boast Mining
-document.getElementById('boast-mining').addEventListener('click', async () => {
-  const multipliers = [2, 3, 5, 8, 9];
-  const costs = [0.00004, 0.0001, 0.0002, 0.0004, 0.0005];
-  let choice = prompt("Choose a multiplier: 2, 3, 5, 8, 9");
-  choice = parseInt(choice);
-  if (!multipliers.includes(choice)) {
-    alert("Invalid choice. Please choose a valid multiplier.");
-    return;
-  }
-  const index = multipliers.indexOf(choice);
-  const cost = costs[index];
-  try {
-    const transaction = await window.ethereum.request({
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          from: document.getElementById('address').textContent,
-          to: '0xYourContractAddressHere',
-          value: (cost * 1e18).toString(16), // Convert ETH to Wei
-        },
-      ],
-    });
-    alert("Transaction successful: " + transaction);
-    miningSpeed *= choice;
-    document.getElementById('mining-speed').textContent = miningSpeed;
-  } catch (error) {
-    console.error(error);
-    alert("Transaction failed.");
-  }
-});
-
-// Existing mining and task logic unchanged
-</script>
 </body>
 </html>
