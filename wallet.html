@@ -1,76 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wallet</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SupremeAmer Wallet</title>
+    <link rel="stylesheet" href="wallet.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Wallet</h1>
-    <div class="balance-section">
-      <p>Balance: <span id="balance">0</span> SA</p>
+    <div class="wallet-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="user-profile">
+                <img src="user-avatar.png" alt="User Avatar" class="avatar">
+                <span class="username">mrsabi3</span>
+            </div>
+        </header>
+
+        <!-- Balance Section -->
+        <section class="balance-section">
+            <div class="balance-card">
+                <h3>SupremeAmer</h3>
+                <p class="balance" id="miningBalance">400.000</p>
+            </div>
+        </section>
+
+        <!-- Mining and Claim Section -->
+        <section class="actions-section">
+            <button id="startButton" class="action-button" onclick="startMining()">Start Mining</button>
+            <button id="claimButton" class="action-button disabled" disabled onclick="claimTokens()">Claim Tokens</button>
+        </section>
+
+        <!-- Live Balances Section -->
+        <section class="live-balances">
+            <h3>Other Balances</h3>
+            <div class="balance-card other">
+                <h4>Bitcoin</h4>
+                <p>$4578.42</p>
+            </div>
+            <div class="balance-card other">
+                <h4>Ethereum</h4>
+                <p>$385.15</p>
+            </div>
+            <div class="balance-card other">
+                <h4>Litecoin</h4>
+                <p>$85.20</p>
+            </div>
+            <div class="balance-card other">
+                <h4>Ripple</h4>
+                <p>$122.24</p>
+            </div>
+        </section>
     </div>
-    <div class="withdraw-section">
-      <input id="withdraw-amount" type="number" placeholder="Enter amount to withdraw">
-      <button id="withdraw-btn">Withdraw</button>
-      <p id="withdraw-status"></p>
-    </div>
-    <div class="receiving-wallet-section">
-      <input id="receiving-wallet-address" type="text" placeholder="Enter SupremeAmer token address">
-      <button id="save-wallet-address-btn">Save Address</button>
-      <p id="wallet-address-status"></p>
-    </div>
-  </div>
-  <script src="Wallet.js"></script>
 
-
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background-color: #000;
-}
-
-.container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.balance-section {
-  margin-bottom: 20px;
-}
-
-.withdraw-section {
-  margin-bottom: 20px;
-}
-
-#withdraw-btn {
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.receiving-wallet-section {
-  margin-bottom: 20px;
-}
-
-#save-wallet-address-btn {
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-</style>
+    <script src="wallet.js"></script>
 </body>
 </html>
