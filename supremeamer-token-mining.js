@@ -1,3 +1,74 @@
+let isMining = false;
+let miningCompleted = false;
+let timerInterval;
+const miningDuration = 3 * 60 * 60; // 3 hours in seconds
+let remainingTime = miningDuration;
+
+function startMining() {
+    if (isMining || miningCompleted) {
+        alert("You need to claim mined tokens before starting mining again.");
+        return;
+    }
+
+    isMining = true;
+    remainingTime = miningDuration;
+
+    const timerElement = document.getElementById("timer");
+    const startButton = document.getElementById("startButton");
+    const claimButton = document.getElementById("claimButton");
+
+    // Disable the start button
+    startButton.classList.add("disabled");
+    startButton.disabled = true;
+
+    // Update the timer every second
+    timerInterval = setInterval(() => {
+        if (remainingTime <= 0) {
+            clearInterval(timerInterval);
+            isMining = false;
+            miningCompleted = true;
+            timerElement.textContent = "Mining Completed! You can now claim your tokens.";
+            claimButton.classList.remove("disabled");
+            claimButton.disabled = false;
+        } else {
+            const hours = Math.floor(remainingTime / 3600);
+            const minutes = Math.floor((remainingTime % 3600) / 60);
+            const seconds = remainingTime % 60;
+            timerElement.textContent = `Mining in Progress: ${hours}h ${minutes}m ${seconds}s`;
+            remainingTime--;
+        }
+    }, 1000);
+}
+
+function claimTokens() {
+    if (!miningCompleted) {
+        alert("Mining is not yet completed. Please wait for the timer to finish.");
+        return;
+    }
+
+    // Simulate claiming tokens (e.g., adding to balance)
+    const balanceElement = document.getElementById("balance");
+    const claimAmount = 50.000; // Example value
+    const currentBalance = parseFloat(balanceElement.textContent);
+    balanceElement.textContent = (currentBalance + claimAmount).toFixed(3);
+
+    // Reset state
+    miningCompleted = false;
+    const startButton = document.getElementById("startButton");
+    const claimButton = document.getElementById("claimButton");
+    const timerElement = document.getElementById("timer");
+
+    // Update buttons
+    startButton.classList.remove("disabled");
+    startButton.disabled = false;
+    claimButton.classList.add("disabled");
+    claimButton.disabled = true;
+
+    // Reset timer
+    timerElement.textContent = "Mining Status: Not Started";
+}
+
+
 class SupremeAmerToken {
     constructor(user, miningRatePerSecond, miningDurationInHours) {
         this.user = user;
