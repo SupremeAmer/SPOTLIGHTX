@@ -4,18 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SupremeAmer Token Mining</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        .disabled {
-            background-color: gray;
-            cursor: not-allowed;
-        }
-        .timer {
-            font-size: 1.5em;
-            margin: 20px;
-            text-align: center;
-        }
-    </style>
+    
 </head>
 <body>
     <div class="container">
@@ -23,7 +12,7 @@
         <header class="header">
             <div class="user-info">
                 <span class="username">mrsabi3</span>
-                <span class="balance" id="balance">400.000</span>
+                <span class="balance">400.000</span>
             </div>
         </header>
 
@@ -32,23 +21,24 @@
             <div class="mining-rig">
                 <img src="mining-rig-placeholder.png" alt="Mining Rig" class="rig-image">
                 <div class="logo-overlay">
-                    <img src="minerlogo.jpg" alt="Logo">
+                    <img src="
+minerlogo.jpg" alt="Logo">
                 </div>
             </div>
-            <div class="timer" id="timer">Mining Status: Not Started</div>
         </main>
 
         <!-- Claim Section -->
         <footer class="footer">
-            <button id="startButton" class="claim-button" onclick="startMining()">Start Mining</button>
-            <button id="claimButton" class="claim-button disabled" disabled onclick="claimTokens()">Claim Tokens</button>
+            <button class="claim-button">
+                Claim <span class="claim-amount">50.00000</span>
+            </button>
         </footer>
 
         <!-- Navigation Section -->
         <nav class="navigation">
             <div class="nav-item active">
                 <span class="nav-icon">🏠</span>
-                <span class="nav-label">Home</span>
+                <span class="nav-label"><a href="wallet.html">Home</a></span>
             </div>
             <div class="nav-item">
                 <span class="nav-icon">📋</span>
@@ -64,7 +54,6 @@
             </div>
         </nav>
     </div>
-
-    <script src=" suprmeamer-token-mining.js"></script>
+    <script src="supremeamer-token-mining.js"></script>
 </body>
 </html>
