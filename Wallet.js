@@ -1,83 +1,54 @@
 
-const contractAddress = 'YOUR_CONTRACT_ADDRESS';
-const contractAbi = [...]; // Your contract ABI
-const tokenContract = new web3.eth.Contract(contractAbi, contractAddress);
 
-let balance = parseFloat(localStorage.getItem('balance')) || 0;
-let receivingWalletAddress = localStorage.getItem('receivingWalletAddress') || '';
-let userAddress = localStorage.getItem('userAddress') || '';
-let privateKey = localStorage.getItem('privateKey') || '';
+let isMining = false;
+let miningCompleted = false;
+let timerInterval;
+const miningDuration = 3 * 60 * 60; // 3 hours in seconds
+let remainingTime = miningDuration;
 
-document.getElementById('balance').textContent = balance.toFixed(2);
+function startMining() {
+    if (isMining || miningCompleted) {
+        alert("You need to claim mined tokens before starting mining again.");
+        return;
+    }
 
-if (receivingWalletAddress) {
-  document.getElementById('receiving-wallet-address').value = receivingWalletAddress;
+    isMining = true;
+    remainingTime = miningDuration;
+
+    const startButton = document.getElementById("startButton");
+    const claimButton = document.getElementById("claimButton");
+    const balanceElement = document.getElementById("miningBalance");
+
+    // Disable the start button
+    startButton.disabled = true;
+
+    // Update the timer every second
+    timerInterval = setInterval(() => {
+        if (remainingTime <= 0) {
+            clearInterval(timerInterval);
+            isMining = false;
+            miningCompleted = true;
+            claimButton.disabled = false;
+            balanceElement.textContent = parseFloat(balanceElement.textContent) + 50.000; // Example mined amount
+        } else {
+            remainingTime--;
+        }
+    }, 1000);
 }
 
-document.getElementById('withdraw-btn').addEventListener('click', async () => {
-  try {
-    const withdrawAmount = parseFloat(document.getElementById('withdraw-amount').value);
-    if (isNaN(withdrawAmount) || withdrawAmount <= 0) {
-      throw new Error('Invalid withdrawal amount');
+function claimTokens() {
+    if (!miningCompleted) {
+        alert("Mining is not yet completed. Please wait for the timer to finish.");
+        return;
     }
 
-    if (balance < withdrawAmount) {
-      throw new Error('Insufficient balance');
-    }
+    alert("Tokens claimed successfully!");
+    miningCompleted = false;
 
-    if (balance < 100000) {
-      throw new Error('Minimum balance requirement not met');
-    }
+    // Enable the start button
+    document.getElementById("startButton").disabled = false;
 
-    if (!web3.utils.isAddress(receivingWalletAddress)) {
-      throw new Error('Invalid receiving wallet address');
-    }
-
-    const txCount = await web3.eth.getTransactionCount(userAddress);
-    const tx = {
-      from: userAddress,
-      to: contractAddress,
-      value: 0,
-      gas: '20000',
-      gasPrice: web3.utils.toWei('20', 'gwei'),
-      nonce: txCount,
-      data: tokenContract.methods.transfer(receivingWalletAddress, web3.utils.toWei(withdrawAmount.toString())).encodeABI(),
-    };
-
-    const signedTx = await web3.eth.accounts.signTransaction(tx, privateKey);
-    const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-
-    if (receipt.status === true) {
-      balance -= withdrawAmount;
-      localStorage.setItem('balance', balance);
-      document.getElementById('balance').textContent = balance.toFixed(2);
-      document.getElementById('withdraw-status').textContent = 'Withdrawal processed successfully!';
-    } else {
-      throw new Error('Transaction failed');
-    }
-  } catch (error) {
-    document.getElementById('withdraw-status').textContent = error.message;
-  }
-});
-
-document.getElementById('save-wallet-address-btn').addEventListener('click', () => {
-  try {
-    receivingWalletAddress = document.getElementById('receiving-wallet-address').value;
-    if (!web3.utils.isAddress(receivingWalletAddress)) {
-      throw new Error('Invalid receiving wallet address');
-    }
-    localStorage.setItem('receivingWalletAddress', receivingWalletAddress);
-    document.getElementById('wallet-address-status').textContent = 'Wallet address saved successfully!';
-  } catch (error) {
-    document.getElementById('wallet-address-status').textContent = error.message;
-  }
-});
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const balance = localStorage.getItem('balance');
-    if (document.getElementById('balance')) {
-      document.getElementById('balance').textContent = balance;
-    }
-  });
-
- 
+    // Reset claim button
+    const claimButton = document.getElementById("claimButton");
+    claimButton.disabled = true;
+}
