@@ -1,134 +1,133 @@
-/* General Styles */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #121212;
-    color: #ffffff;
-}
-
-.container {
+    background-color: #f4f4f4;
+    color: #333;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
 }
 
-/* Header Styles */
-.header {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 20px;
-    background-color: #1a1a1a;
-    border-bottom: 1px solid #333;
-}
-
-.user-info {
-    display: flex;
-    justify-content: space-between;
+.wallet-container {
     width: 100%;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.username {
-    color: #ffffff;
-}
-
-.balance {
-    color: #c0c0c0;
-}
-
-/* Mining Rig Section */
-.main-content {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #1e1e1e;
-}
-
-.mining-rig {
-    position: relative;
-    width: 250px;
-    height: 400px;
-}
-
-.rig-image {
-    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
     border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-.logo-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
+/* Header Section */
+.header {
+    background-color: #6200ea;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+}
+
+.user-profile {
     display: flex;
-    justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-}
-
-.logo-overlay img {
-    width: 50px;
-}
-
-/* Claim Button */
-.footer {
-    padding: 15px 20px;
-    display: flex;
     justify-content: center;
-    background-color: #1a1a1a;
-    border-top: 1px solid #333;
 }
 
-.claim-button {
-    background-color: #4caf50;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Balance Section */
+.balance-section {
+    padding: 20px;
+    text-align: center;
+}
+
+.balance-card {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+}
+
+.balance-card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.balance-card p {
+    font-size: 24px;
+    margin: 5px 0 0;
     font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
-.claim-button:hover {
-    background-color: #388e3c;
-}
-
-.claim-amount {
-    font-weight: bold;
-}
-
-/* Navigation Bar */
-.navigation {
+/* Actions Section */
+.actions-section {
     display: flex;
     justify-content: space-around;
-    background-color: #1a1a1a;
-    border-top: 1px solid #333;
-    padding: 10px 0;
+    padding: 10px 20px;
 }
 
-.nav-item {
+.action-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.action-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.action-button:not(:disabled) {
+    background-color: #6200ea;
+    color: #fff;
+}
+
+.action-button:not(:disabled):hover {
+    background-color: #5a00d4;
+}
+
+/* Live Balances Section */
+.live-balances {
+    padding: 20px;
+}
+
+.live-balances h3 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.balance-card.other {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    color: #c0c0c0;
+    padding: 10px;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.nav-item.active {
-    color: #ffffff;
+.balance-card.other h4 {
+    margin: 0;
+    font-size: 16px;
 }
 
-.nav-icon {
-    font-size: 20px;
+.balance-card.other p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-.nav-label {
-    font-size: 12px;
-    margin-top: 5px;
-}
