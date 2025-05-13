@@ -1,17 +1,25 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
+    text-align: start;
     background-color: #121212;
     color: white;
 }
 
 .logo-container {
     margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 23px;
+    text-align: center;
+    
 }
 
 .animated-logo {
     width: 150px;
     animation: bounce 2s infinite;
+    border: 1px solid #ccc;
+    border-radius: 23px;
+    
+    text-align: center;
 }
 
 @keyframes bounce {
@@ -37,9 +45,11 @@ body {
 
 footer nav ul {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     list-style: none;
     padding: 0;
+    
+    text-align: center;
 }
 
 footer nav ul li {
