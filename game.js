@@ -21,7 +21,6 @@ function stopTimer() {
     clearInterval(interval);
 }
 
-// Generate puzzle pieces
 function createPuzzle() {
     let positions = [...Array(9).keys()];
     shuffledPieces = positions.sort(() => Math.random() - 0.5);
@@ -38,6 +37,8 @@ function createPuzzle() {
         pieces.push(piece);
     });
     startTimer();
+}
+
 }
 
 // Drag and drop events
