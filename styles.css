@@ -1,63 +1,200 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    text-align: start;
-    background-color: #121212;
-    color: white;
-}
-
-.logo-container {
-    margin: 20px auto;
-    border: 1px solid #ccc;
-    border-radius: 23px;
-    text-align: center;
-    
-}
-
-.animated-logo {
-    width: 150px;
-    animation: bounce 2s infinite;
-    border: 1px solid #ccc;
-    border-radius: 23px;
-    
-    text-align: center;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.progress-container {
-    width: 80%;
-    background: #333;
-    height: 30px;
-    border-radius: 15px;
-    overflow: hidden;
-    margin: 10px auto;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 100%;
-    background: #00ff00;
-    transition: width 1s linear;
-}
-
-footer nav ul {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
     padding: 0;
-    
     text-align: center;
 }
 
-footer nav ul li {
+/* Header */
+header {
+    background-color: #2c3e50;
+    color: #ffffff;
+    padding: 20px;
+    font-size: 24px;
+}
+
+/* Dashboard */
+.dashboard {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+button {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
     margin: 10px;
 }
 
-footer nav ul li a {
+button:hover {
+    background-color: #219150;
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 80%;
+    background-color: #ddd;
+    border-radius: 8px;
+    margin: 20px auto;
+    height: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: #27ae60;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Upgrade Section */
+.upgrade-section {
+    background-color: #f1c40f;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.upgrade-section button {
+    background-color: #e67e22;
+}
+
+/* Logo Animation */
+.animated-logo {
+    animation: float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Header */
+header {
+    background-color: #2c3e50;
+    color: #ffffff;
+    padding: 20px;
+    font-size: 24px;
+}
+
+/* Dashboard */
+.dashboard {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+button {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+button:hover {
+    background-color: #219150;
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 80%;
+    background-color: #ddd;
+    border-radius: 8px;
+    margin: 20px auto;
+    height: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: #27ae60;
+    transition: width 0.5s ease-in-out;
+}
+
+/* Upgrade Section */
+.upgrade-section {
+    background-color: #f1c40f;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.upgrade-section button {
+    background-color: #e67e22;
+}
+
+/* Logo Animation */
+.animated-logo {
+    animation: float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Footer Navigation */
+footer {
+    background-color: #2c3e50;
+    padding: 10px;
+}
+
+footer ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+footer ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+footer ul li a {
     color: white;
     text-decoration: none;
+}
+
+footer ul li a:hover {
+    text-decoration: underline;
 }
 
