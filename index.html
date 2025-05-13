@@ -3,57 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SupremeAmer Token Mining</title>
-    
+    <title>SupremeAmer Coin Mining</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header Section -->
-        <header class="header">
-            <div class="user-info">
-                <span class="username">mrsabi3</span>
-                <span class="balance">400.000</span>
-            </div>
-        </header>
+    <header>
+        <h1>SupremeAmer Coin Mining</h1>
+    </header>
 
-        <!-- Mining Rig Section -->
-        <main class="main-content">
-            <div class="mining-rig">
-                <img src="mining-rig-placeholder.png" alt="Mining Rig" class="rig-image">
-                <div class="logo-overlay">
-                    <img src="
-minerlogo.jpg" alt="Logo">
-                </div>
-            </div>
-        </main>
+    <main>
+        <div class="logo-container">
+            <img src="C:\Users\Administrator\Downloads\Leonardo_Phoenix_10_Design_a_bold_modern_logo_for_SupremeAmer_3.jpg" alt="SupremeAmer Coin Logo" class="animated-logo">
+        </div>
 
-        <!-- Claim Section -->
-        <footer class="footer">
-            <button class="claim-button">
-                Claim <span class="claim-amount">50.00000</span>
-            </button>
-        </footer>
+        <div class="dashboard">
+            <h2>Mining Balance: <span id="balance">0</span> SupremeAmer</h2>
+            <button id="startMining">Start Mining</button>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
 
-        <!-- Navigation Section -->
-        <nav class="navigation">
-            <div class="nav-item active">
-                <span class="nav-icon">🏠</span>
-                <span class="nav-label"><a href="wallet.html">Home</a></span>
-            </div>
-            <div class="nav-item">
-                <span class="nav-icon">📋</span>
-                <span class="nav-label">Tasks</span>
-            </div>
-            <div class="nav-item">
-                <span class="nav-icon">🚀</span>
-                <span class="nav-label">Boosts</span>
-            </div>
-            <div class="nav-item">
-                <span class="nav-icon">👥</span>
-                <span class="nav-label">Friends</span>
-            </div>
+        <div class="upgrade-section">
+            <h3>Boost Your Mining Speed</h3>
+            <button id="upgradeSpeed">Upgrade (0.0009 ETH)</button>
+        </div>
+    </main>
+
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="task.html">Task</a></li>
+                <li><a href="wallet.html">Wallet</a></li>
+                <li><a href="wallet.html">Boast</a></li>
+            </ul>
         </nav>
-    </div>
-    <script src="supremeamer-token-mining.js"></script>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
