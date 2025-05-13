@@ -1,133 +1,53 @@
-
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    text-align: center;
+    background-color: #121212;
+    color: white;
 }
 
-.wallet-container {
-    width: 100%;
-    max-width: 400px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.logo-container {
+    margin: 20px auto;
+}
+
+.animated-logo {
+    width: 150px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.progress-container {
+    width: 80%;
+    background: #333;
+    height: 30px;
+    border-radius: 15px;
     overflow: hidden;
-}
-
-/* Header Section */
-.header {
-    background-color: #6200ea;
-    color: #fff;
-    padding: 15px;
-    text-align: center;
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-/* Balance Section */
-.balance-section {
-    padding: 20px;
-    text-align: center;
-}
-
-.balance-card {
-    background-color: #f4f4f4;
-    padding: 15px;
-    border-radius: 8px;
     margin: 10px auto;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 300px;
 }
 
-.balance-card h3 {
-    margin: 0;
-    font-size: 18px;
-    color: #333;
+.progress-bar {
+    width: 100%;
+    height: 100%;
+    background: #00ff00;
+    transition: width 1s linear;
 }
 
-.balance-card p {
-    font-size: 24px;
-    margin: 5px 0 0;
-    font-weight: bold;
-}
-
-/* Actions Section */
-.actions-section {
+footer nav ul {
     display: flex;
-    justify-content: space-around;
-    padding: 10px 20px;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
 }
 
-.action-button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+footer nav ul li {
+    margin: 10px;
 }
 
-.action-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.action-button:not(:disabled) {
-    background-color: #6200ea;
-    color: #fff;
-}
-
-.action-button:not(:disabled):hover {
-    background-color: #5a00d4;
-}
-
-/* Live Balances Section */
-.live-balances {
-    padding: 20px;
-}
-
-.live-balances h3 {
-    text-align: center;
-    font-size: 18px;
-    margin-bottom: 15px;
-}
-
-.balance-card.other {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #ffffff;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.balance-card.other h4 {
-    margin: 0;
-    font-size: 16px;
-}
-
-.balance-card.other p {
-    margin: 0;
-    font-size: 16px;
-    font-weight: bold;
+footer nav ul li a {
+    color: white;
+    text-decoration: none;
 }
 
