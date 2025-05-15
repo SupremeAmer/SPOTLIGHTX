@@ -13,11 +13,37 @@
 
     <main>
         <h2>Arrange the pieces to reveal the SupremeAmer Coin!</h2>
+        
+        <!-- Puzzle container for dynamically generated pieces -->
         <div class="puzzle-container" id="puzzleContainer"></div>
+
+        <!-- Game Controls -->
         <button id="resetGame">Reset Game</button>
         <p>Time Taken: <span id="timer">0</span> seconds</p>
         <p>Reward: <span id="reward">0</span> SupremeAmer Coins</p>
+
+        <!-- Leaderboard Section with animations -->
+        <section id="leaderboard">
+            <h3>🏆 Leaderboard</h3>
+            <div id="leaderboardEntries"></div>
+        </section>
+
+        <!-- Theme Selector with sound effects -->
+        <label for="themeSelector">🎨 Choose a theme:</label>
+        <select id="themeSelector">
+            <option value="classic">Classic</option>
+            <option value="dark">Dark Mode</option>
+            <option value="space">Galaxy</option>
+        </select>
     </main>
+
+    <!-- Multiplayer Chat Panel -->
+    <div id="chatPanel" class="hidden">
+        <div id="chatMessages"></div>
+        <input type="text" id="chatInput" placeholder="Type a message...">
+        <button id="chatSendButton">Send</button>
+    </div>
+    <button id="chatToggle">💬</button>
 
     <script src="game.js"></script>
 </body>
