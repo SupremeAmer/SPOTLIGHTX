@@ -41,6 +41,39 @@ function displayLeaderboard(data) {
     });
 }
 
+import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+const chatRef = ref(db, "chat");
+
+// Sending messages
+document.getElementById("sendMessage").addEventListener("click", function () {
+    let message = document.getElementById("chatMessage").value.trim();
+    if (message) {
+        push(chatRef, { player: currentPlayer, text: message });
+        document.getElementById("chatMessage").value = "";
+    }
+});
+
+// Listening for messages
+onChildAdded(chatRef, (snapshot) => {
+    let data = snapshot.val();
+    let chatWindow = document.getElementById("chatWindow");
+    let messageElement = document.createElement("p");
+    messageElement.textContent = `${data.player}: ${data.text}`;
+    chatWindow.appendChild(messageElement);
+});
+
+
+document.getElementById("findOpponent").addEventListener("click", function () {
+    document.getElementById("opponentMessage").textContent = "Searching for an opponent...";
+    
+    setTimeout(() => {
+        let opponent = ["SupremeAlpha", "CryptoMaster", "StegoLegend"][Math.floor(Math.random() * 3)];
+        document.getElementById("opponentMessage").textContent = `Matched with ${opponent}! Start playing!`;
+    }, 2000);
+});
+
+
 
 const words = [
     "bitcoin", "blockchain", "steganography", "nft", "clandestine", "secret",
