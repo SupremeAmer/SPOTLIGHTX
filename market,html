@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SupremeAmer Market</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="web3.js"></script>
+</head>
+<body>
+
+    <nav>
+        <button onclick="showLand()">Land</button>
+        <button onclick="showTools()">Tools</button>
+    </nav>
+
+    <section id="market-content">
+        <div id="land">
+            <img src="land.jpg" alt="Land Image">
+            <p>Premium mining land available for purchase.</p>
+            <p>Price: 2 ETH</p>
+            <button onclick="buyItem('land')">Buy Me</button>
+        </div>
+        <div id="tools" style="display:none;">
+            <img src="mining-tool.jpg" alt="Mining Tool">
+            <p>High-efficiency mining equipment.</p>
+            <p>Price: 0.5 ETH</p>
+            <button onclick="buyItem('tools')">Buy Me</button>
+        </div>
+    </section>
+
+    <script src="market.js"></script>
+</body>
+</html>
