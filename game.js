@@ -56,5 +56,30 @@ document.getElementById("resetGame").addEventListener("click", () => {
     rewardDisplay.textContent = score;
     createWordGrid();
 });
+let currentPlayer = localStorage.getItem("currentPlayer") || "";
+
+document.getElementById("loginButton").addEventListener("click", function () {
+    let playerName = document.getElementById("playerName").value.trim();
+    if (playerName) {
+        currentPlayer = playerName;
+        localStorage.setItem("currentPlayer", currentPlayer);
+        document.getElementById("welcomeMessage").textContent = `Welcome, ${currentPlayer}!`;
+    }
+});
+
+function updateLeaderboard(score) {
+    let leaderboardData = JSON.parse(localStorage.getItem("leaderboard")) || [];
+    leaderboardData.push({ player: currentPlayer, score });
+    leaderboardData.sort((a, b) => b.score - a.score);
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboardData));
+    displayLeaderboard();
+}
+
+window.onload = function () {
+    if (currentPlayer) {
+        document.getElementById("welcomeMessage").textContent = `Welcome back, ${currentPlayer}!`;
+    }
+};
+
 
 window.onload = createWordGrid;
