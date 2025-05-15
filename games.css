@@ -18,31 +18,19 @@ body {
     50% { transform: translateY(-5px); }
 }
 
-/* Puzzle Container */
-.puzzle-container {
-    display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
-    gap: 5px;
-    margin: auto;
-    width: 310px;
+.grid-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
-
-/* Puzzle Piece Styling */
-.puzzle-piece {
-    width: 100px;
-    height: 100px;
-    background-size: cover;
-    border: 2px solid gold;
+.letter {
+    padding: 10px;
+    background-color: #f3b41b;
+    border-radius: 5px;
     cursor: pointer;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+    font-size: 20px;
 }
 
-.puzzle-piece:hover {
-    filter: brightness(1.3);
-    transform: scale(1.05); /* Slight enlargement effect */
-}
 
 /* Leaderboard Styling */
 #leaderboard {
