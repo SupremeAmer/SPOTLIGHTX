@@ -40,6 +40,20 @@ function displayLeaderboard(data) {
         row.insertCell(2).textContent = entry.score;
     });
 }
+const emojiRef = ref(db, "emojiReactions");
+
+document.getElementById("emojiButton").addEventListener("click", function () {
+    push(emojiRef, { player: currentPlayer, emoji: "😀" });
+});
+
+onChildAdded(emojiRef, (snapshot) => {
+    let data = snapshot.val();
+    let chatWindow = document.getElementById("chatWindow");
+    let emojiElement = document.createElement("p");
+    emojiElement.textContent = `${data.player} reacted with ${data.emoji}`;
+    chatWindow.appendChild(emojiElement);
+});
+
 
 import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
@@ -73,12 +87,29 @@ document.getElementById("findOpponent").addEventListener("click", function () {
     }, 2000);
 });
 
+let localStream;
+let peerConnection;
+
+document.getElementById("startVoiceChat").addEventListener("click", async function () {
+    localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    peerConnection = new RTCPeerConnection();
+    peerConnection.addTrack(localStream.getAudioTracks()[0]);
+});
+
+document.getElementById("stopVoiceChat").addEventListener("click", function () {
+    localStream.getTracks().forEach(track => track.stop());
+});
+
+
 
 
 const words = [
     "bitcoin", "blockchain", "steganography", "nft", "clandestine", "secret",
     "furtive", "covert", "hide", "stock", "mining", "website", "concealment"
 ];
+
+
+
 
 let level = 1;
 let score = 0;
