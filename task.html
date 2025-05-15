@@ -7,44 +7,30 @@
     <link rel="stylesheet" href="games.css">
 </head>
 <body>
-    <header>
-        <h1>SupremeAmer Coin Puzzle Game</h1>
-    </header>
-
+    
+       
+<main>
+    <h2>SupremeAmer Word Connect</h2>
+    <p>Connect the letters to form words and earn SupremeAmer Coins!</p>
+    <p>Level: <span id="level">1</span> / 700</p>
+    <div id="wordGrid" class="grid-container"></div>
+    <p>Reward: <span id="reward">0</span> SupremeAmer Tokens</p>
+    <button id="resetGame">Reset</button>
     <main>
-        <h2>Arrange the pieces to reveal the SupremeAmer Coin!</h2>
-        
-        <!-- Puzzle container for dynamically generated pieces -->
-        <div class="puzzle-container" id="puzzleContainer"></div>
+    <h2>SupremeAmer Word Connect</h2>
+    <p>Connect the letters to form words and earn SupremeAmer Coins!</p>
+    <p>Level: <span id="level">1</span> / 700</p>
+    <div id="wordGrid" class="grid-container"></div>
+    <p>Reward: <span id="reward">0</span> SupremeAmer Tokens</p>
+    <button id="resetGame">Reset</button>
+</main>
 
-        <!-- Game Controls -->
-        <button id="resetGame">Reset Game</button>
-        <p>Time Taken: <span id="timer">0</span> seconds</p>
-        <p>Reward: <span id="reward">0</span> SupremeAmer Coins</p>
+<script src="game.js"></script>
 
-        <!-- Leaderboard Section with animations -->
-        <section id="leaderboard">
-            <h3>🏆 Leaderboard</h3>
-            <div id="leaderboardEntries"></div>
-        </section>
+</main>
 
-        <!-- Theme Selector with sound effects -->
-        <label for="themeSelector">🎨 Choose a theme:</label>
-        <select id="themeSelector">
-            <option value="classic">Classic</option>
-            <option value="dark">Dark Mode</option>
-            <option value="space">Galaxy</option>
-        </select>
-    </main>
+<script src="game.js"></script>
 
-    <!-- Multiplayer Chat Panel -->
-    <div id="chatPanel" class="hidden">
-        <div id="chatMessages"></div>
-        <input type="text" id="chatInput" placeholder="Type a message...">
-        <button id="chatSendButton">Send</button>
-    </div>
-    <button id="chatToggle">💬</button>
 
-    <script src="game.js"></script>
 </body>
 </html>
