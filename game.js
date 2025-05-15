@@ -1,3 +1,47 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT.firebaseio.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_ID",
+    appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const leaderboardRef = ref(db, "leaderboard");
+
+// Function to update leaderboard in Firebase
+function updateLeaderboard(player, score) {
+    set(ref(db, "leaderboard/" + player), { player, score });
+}
+
+// Function to listen for updates
+onValue(leaderboardRef, (snapshot) => {
+    const data = snapshot.val();
+    displayLeaderboard(data);
+});
+
+// Display Leaderboard
+function displayLeaderboard(data) {
+    let leaderboardTable = document.getElementById("leaderboard");
+    leaderboardTable.innerHTML = "<tr><th>Rank</th><th>Player</th><th>Score</th></tr>";
+
+    let sortedPlayers = Object.values(data).sort((a, b) => b.score - a.score);
+    sortedPlayers.forEach((entry, index) => {
+        let row = leaderboardTable.insertRow();
+        row.insertCell(0).textContent = index + 1;
+        row.insertCell(1).textContent = entry.player;
+        row.insertCell(2).textContent = entry.score;
+    });
+}
+
+
 const words = [
     "bitcoin", "blockchain", "steganography", "nft", "clandestine", "secret",
     "furtive", "covert", "hide", "stock", "mining", "website", "concealment"
