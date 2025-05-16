@@ -295,55 +295,75 @@
     document.getElementById('task-btn').onclick = ()=>{ state.view='task'; render(); };
     document.getElementById('wallet-btn').onclick = ()=>{ state.view='wallet'; render(); };
 
-    // ---- Email Auth / Sign Up ----
-    function showAuthForm(errorMsg = "") {
-      document.getElementById('footer').style.display = "none";
-      mainContent.innerHTML = `
-        <form id="auth-form" autocomplete="off">
-          <h2>Sign In or Register</h2>
-          <input type="email" id="auth-email" placeholder="Email" required autocomplete="username">
-          <input type="password" id="auth-pass" placeholder="Password" required autocomplete="current-password">
-          <button type="submit">Sign In / Register</button>
-          <div id="auth-error">${errorMsg}</div>
-        </form>
-      `;
-      document.getElementById('auth-form').onsubmit = async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('auth-email').value.trim();
-        const pass = document.getElementById('auth-pass').value;
-        try {
-          let userCred = await auth.signInWithEmailAndPassword(email, pass);
-          handleSignedIn(userCred.user);
-        } catch (e) {
-          if (e.code === "auth/user-not-found") {
-            // Try creating user
-            try {
-              let userCred = await auth.createUserWithEmailAndPassword(email, pass);
-              handleSignedIn(userCred.user);
-            } catch (e2) {
-              showAuthForm(e2.message);
-            }
-          } else {
-            showAuthForm(e.message);
+  
+  // ---- Email/Google Auth / Sign Up ----
+  function showAuthForm(errorMsg = "") {
+    document.getElementById('footer').style.display = "none";
+    mainContent.innerHTML = `
+      <form id="auth-form" autocomplete="off">
+        <h2>Sign In or Register</h2>
+        <input type="email" id="auth-email" placeholder="Email" required autocomplete="username">
+        <input type="password" id="auth-pass" placeholder="Password" required autocomplete="current-password">
+        <button type="submit">Sign In / Register</button>
+        <div style="margin:16px 0;">OR</div>
+        <button type="button" id="google-signin-btn" style="background:#fff; color:#333; border:1px solid #ccc; border-radius:8px; font-size:16px; padding:10px 24px; cursor:pointer;">
+          <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="width:22px; vertical-align:middle; margin-right:8px;">
+          Sign in with Google
+        </button>
+        <div id="auth-error">${errorMsg}</div>
+      </form>
+    `;
+    document.getElementById('auth-form').onsubmit = async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value.trim();
+      const pass = document.getElementById('auth-pass').value;
+      try {
+        let userCred = await auth.signInWithEmailAndPassword(email, pass);
+        handleSignedIn(userCred.user);
+      } catch (e) {
+        if (e.code === "auth/user-not-found") {
+          // Try creating user
+          try {
+            let userCred = await auth.createUserWithEmailAndPassword(email, pass);
+            handleSignedIn(userCred.user);
+          } catch (e2) {
+            showAuthForm(e2.message);
           }
+        } else {
+          showAuthForm(e.message);
         }
-      };
-    }
-    function handleSignedIn(user) {
-      // Username: email part before @
-      username = user.email.split('@')[0];
-      userId = username;
-      loadFromFirebase().then(render);
-    }
-
-    // On page load, show auth form or resume session
-    auth.onAuthStateChanged(function(user) {
-      if (user) {
-        handleSignedIn(user);
-      } else {
-        showAuthForm();
       }
-    });
+    };
+
+    // Google Sign-In button handler
+    document.getElementById('google-signin-btn').onclick = async () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        let result = await auth.signInWithPopup(provider);
+        handleSignedIn(result.user);
+      } catch (e) {
+        showAuthForm(e.message);
+      }
+    };
+  }
+
+  function handleSignedIn(user) {
+    // Username: email part before @ (or for Google, fallback to displayName if no email)
+    username = user.email ? user.email.split('@')[0] : (user.displayName || "user");
+    userId = username;
+    loadFromFirebase().then(render);
+  }
+
+  // On page load, show auth form or resume session
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      handleSignedIn(user);
+    } else {
+      showAuthForm();
+    }
+  });
+
+
   </script>
 </body>
 </html>
