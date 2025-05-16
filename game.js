@@ -1,7 +1,7 @@
+// Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { getDatabase, ref, set, push, onValue, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBVfVTOens--o6K12o2o9xoBHn2QgRtHTI",
   authDomain: "supremeamer-e6423.firebaseapp.com",
@@ -13,23 +13,20 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+
+// Leaderboard management
 const leaderboardRef = ref(db, "leaderboard");
 
-// Function to update leaderboard in Firebase
 function updateLeaderboard(player, score) {
     set(ref(db, "leaderboard/" + player), { player, score });
 }
 
-// Function to listen for updates
 onValue(leaderboardRef, (snapshot) => {
     const data = snapshot.val();
-    displayLeaderboard(data);
+    if (data) displayLeaderboard(data);
 });
 
-// Display Leaderboard
 function displayLeaderboard(data) {
     let leaderboardTable = document.getElementById("leaderboard");
     leaderboardTable.innerHTML = "<tr><th>Rank</th><th>Player</th><th>Score</th></tr>";
@@ -42,27 +39,28 @@ function displayLeaderboard(data) {
         row.insertCell(2).textContent = entry.score;
     });
 }
+
+// Emoji reactions
 const emojiRef = ref(db, "emojiReactions");
 
-document.getElementById("emojiButton").addEventListener("click", function () {
+document.getElementById("emojiButton")?.addEventListener("click", function () {
     push(emojiRef, { player: currentPlayer, emoji: "😀" });
 });
 
 onChildAdded(emojiRef, (snapshot) => {
     let data = snapshot.val();
     let chatWindow = document.getElementById("chatWindow");
-    let emojiElement = document.createElement("p");
-    emojiElement.textContent = `${data.player} reacted with ${data.emoji}`;
-    chatWindow.appendChild(emojiElement);
+    if (chatWindow) {
+        let emojiElement = document.createElement("p");
+        emojiElement.textContent = `${data.player} reacted with ${data.emoji}`;
+        chatWindow.appendChild(emojiElement);
+    }
 });
 
-
-import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
-
+// Chat functionality
 const chatRef = ref(db, "chat");
 
-// Sending messages
-document.getElementById("sendMessage").addEventListener("click", function () {
+document.getElementById("sendMessage")?.addEventListener("click", function () {
     let message = document.getElementById("chatMessage").value.trim();
     if (message) {
         push(chatRef, { player: currentPlayer, text: message });
@@ -70,17 +68,18 @@ document.getElementById("sendMessage").addEventListener("click", function () {
     }
 });
 
-// Listening for messages
 onChildAdded(chatRef, (snapshot) => {
     let data = snapshot.val();
     let chatWindow = document.getElementById("chatWindow");
-    let messageElement = document.createElement("p");
-    messageElement.textContent = `${data.player}: ${data.text}`;
-    chatWindow.appendChild(messageElement);
+    if (chatWindow) {
+        let messageElement = document.createElement("p");
+        messageElement.textContent = `${data.player}: ${data.text}`;
+        chatWindow.appendChild(messageElement);
+    }
 });
 
-
-document.getElementById("findOpponent").addEventListener("click", function () {
+// Opponent matching
+document.getElementById("findOpponent")?.addEventListener("click", function () {
     document.getElementById("opponentMessage").textContent = "Searching for an opponent...";
     
     setTimeout(() => {
@@ -89,29 +88,25 @@ document.getElementById("findOpponent").addEventListener("click", function () {
     }, 2000);
 });
 
+// Voice chat functionality
 let localStream;
 let peerConnection;
 
-document.getElementById("startVoiceChat").addEventListener("click", async function () {
+document.getElementById("startVoiceChat")?.addEventListener("click", async function () {
     localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
     peerConnection = new RTCPeerConnection();
     peerConnection.addTrack(localStream.getAudioTracks()[0]);
 });
 
-document.getElementById("stopVoiceChat").addEventListener("click", function () {
-    localStream.getTracks().forEach(track => track.stop());
+document.getElementById("stopVoiceChat")?.addEventListener("click", function () {
+    localStream?.getTracks().forEach(track => track.stop());
 });
 
-
-
-
+// Word puzzle game
 const words = [
     "bitcoin", "blockchain", "steganography", "nft", "clandestine", "secret",
     "furtive", "covert", "hide", "stock", "mining", "website", "concealment"
 ];
-
-
-
 
 let level = 1;
 let score = 0;
@@ -124,6 +119,8 @@ function shuffleLetters(word) {
 }
 
 function createWordGrid() {
+    if (!wordGrid) return;
+
     wordGrid.innerHTML = "";
     let currentWord = words[level - 1];
     let scrambled = shuffleLetters(currentWord);
@@ -160,15 +157,17 @@ function levelUp() {
     }
 }
 
-document.getElementById("resetGame").addEventListener("click", () => {
+document.getElementById("resetGame")?.addEventListener("click", () => {
     level = 1;
     score = 0;
     rewardDisplay.textContent = score;
     createWordGrid();
 });
+
+// Player login
 let currentPlayer = localStorage.getItem("currentPlayer") || "";
 
-document.getElementById("loginButton").addEventListener("click", function () {
+document.getElementById("loginButton")?.addEventListener("click", function () {
     let playerName = document.getElementById("playerName").value.trim();
     if (playerName) {
         currentPlayer = playerName;
@@ -177,19 +176,9 @@ document.getElementById("loginButton").addEventListener("click", function () {
     }
 });
 
-function updateLeaderboard(score) {
-    let leaderboardData = JSON.parse(localStorage.getItem("leaderboard")) || [];
-    leaderboardData.push({ player: currentPlayer, score });
-    leaderboardData.sort((a, b) => b.score - a.score);
-    localStorage.setItem("leaderboard", JSON.stringify(leaderboardData));
-    displayLeaderboard();
-}
-
 window.onload = function () {
     if (currentPlayer) {
         document.getElementById("welcomeMessage").textContent = `Welcome back, ${currentPlayer}!`;
     }
+    createWordGrid();
 };
-
-
-window.onload = createWordGrid;
