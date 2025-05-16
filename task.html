@@ -2,43 +2,157 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SupremeAmer Word Connect</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  
+  <title>SupremeAmer Word Connect Game</title>
+  <style>
+    body {
+      background: #e0ffef;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    #game-container {
+      margin: 30px auto;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      width: 340px;
+      padding: 25px 10px;
+      position: relative;
+    }
+    #level {
+      font-weight: bold;
+      color: #62bc5d;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+    #grid {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin: 18px 0 28px;
+    }
+    .cell {
+      width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #f2fff7;
+      border: 2px solid #62bc5d;
+      border-radius: 8px;
+      margin: 2px;
+      font-size: 22px;
+      color: #333;
+      font-weight: bold;
+    }
+    #selector {
+      margin: 0 auto 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .letter {
+      width: 44px;
+      height: 44px;
+      background: #ffe466;
+      border: 2px solid #e3b700;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.15s;
+      user-select: none;
+    }
+    .letter.selected {
+      background: #ffd966;
+    }
+    #input-word {
+      font-size: 22px;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+    #submit-btn {
+      background: #62bc5d;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      padding: 8px 20px;
+      cursor: pointer;
+    }
+    #submit-btn:active {
+      background: #499c4a;
+    }
+  </style>
 </head>
 <body>
-  <div class="game-container">
-    <div class="top-bar">
-      <div class="level-info">
-        <span class="level-label">LEVEL-</span>
-      </div>
-      <div class="coins">
-        <img src="https://img.icons8.com/emoji/32/coin-emoji.png" alt="coin" class="coin-img"/>
-        <span id="coin-count">4200</span>
-      </div>
-    </div>
-    <div class="game-board">
-      <div class="crossword">
-        <!-- Will be filled by JS -->
-      </div>
-    </div>
-    <div class="actions-bar">
-      <button class="action-btn" id="shuffle-btn" title="Shuffle">
-        <img src="https://img.icons8.com/ios-glyphs/30/refresh--v1.png" alt="Shuffle"/>
-      </button>
-      <button class="action-btn" id="hint-btn" title="Hint">
-        <img src="https://img.icons8.com/ios-glyphs/30/light-on--v1.png" alt="Hint"/>
-      </button>
-    </div>
-    <div class="word-connect">
-      <svg width="200" height="200" class="connect-lines"></svg>
-      <div class="letters">
-        <!-- Letters will be filled by JS -->
-      </div>
-    </div>
-    <div class="current-word" id="current-word"></div>
+  <div id="game-container">
+    <div id="level"></div>
+    <div id="grid"></div>
+    <div id="input-word"></div>
+    <div id="selector"></div>
+    <button id="submit-btn">SUBMIT</button>
   </div>
-  <script src="game.js"></script>
+  <script type="module">
+    import WordConnectGame from './SupremeAmerWordConnectGame.js';
+
+    const WORDS = [
+      "nft","hide","defi","veil","skin","skrill","stock","mining","website","bitcoin","secret","furtive","covert","latent","conceal","hideout","forex","stocks","secrete","stash","hider","hideling","hiddle","skulk","lurk","finance","disguise","investment","rawhide","private","trading","nfts","blindfold","cryptography","wrapper","dogecoin","equities","excoriate","derma","plaintext","mcafee","paddle box","abstruse","secrecy","mithe","mask","cutis","palliate","oxhide","unapparent","cover","hideaway","invisible","hide away","loinskin","mulch","wattson","meme","funds","undercover","gaming","reinsure","stable","fund","stonks","skinless","secretly","card","mirage","smart","revenant","decentralization","binance","coverer","malware","determinism","syllogisms","kernel","philo","viruses","regnant","gnostic","moby","ssh","cypher","scob","ultranationalism","pinko","screen smoke","epidermis","hele","fiat","pellage","beshroud","dermis","occult","market","canopy","paypal","recondite","skinner","overhele","obscure","goatskin","hiddenness","coverage","secretion","cutaneous","mysterious","obscurely","penetralia","deerskin","enshroud","camouflage","bescreen","security","blockchain","clandestine","concealment","surreptitious","stablecoin","wiggery","recursion","steganography","sovietism","neoconservativism"
+    ];
+    const game = new WordConnectGame(WORDS);
+
+    const levelDiv = document.getElementById('level');
+    const gridDiv = document.getElementById('grid');
+    const selectorDiv = document.getElementById('selector');
+    const inputWordDiv = document.getElementById('input-word');
+    const submitBtn = document.getElementById('submit-btn');
+
+    function render() {
+      levelDiv.innerText = `LEVEL ${game.level + 1}`;
+      // Render grid
+      gridDiv.innerHTML = '';
+      for (let i = 0; i < game.grid.length; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.innerText = (game.found.size > 0 ? game.grid[i] : '');
+        gridDiv.appendChild(cell);
+      }
+      // Render selector
+      selectorDiv.innerHTML = '';
+      game.letters.forEach((letter, i) => {
+        const div = document.createElement('div');
+        div.className = 'letter';
+        div.innerText = letter;
+        div.onclick = () => {
+          if (!div.classList.contains('selected')) {
+            div.classList.add('selected');
+            game.input += letter;
+            inputWordDiv.innerText = game.input;
+          }
+        };
+        selectorDiv.appendChild(div);
+      });
+      inputWordDiv.innerText = game.input;
+    }
+
+    submitBtn.onclick = () => {
+      if (game.tryWord(game.input)) {
+        alert('Correct!');
+        setTimeout(render, 500);
+      } else {
+        alert('Try again!');
+        game.input = "";
+        document.querySelectorAll('.letter').forEach(x => x.classList.remove('selected'));
+        inputWordDiv.innerText = '';
+      }
+    };
+
+    render();
+  </script>
 </body>
 </html>
