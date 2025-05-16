@@ -26,6 +26,12 @@
       margin-bottom: 12px;
       font-size: 20px;
     }
+    #sac-point {
+      color: #e3b700;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: bold;
+    }
     #grid {
       display: flex;
       justify-content: center;
@@ -46,6 +52,12 @@
       font-size: 22px;
       color: #333;
       font-weight: bold;
+      transition: background 0.2s;
+    }
+    .cell.hint {
+      background: #ffe466;
+      border-color: #e3b700;
+      color: #ac8c00;
     }
     #selector {
       margin: 0 auto 20px;
@@ -84,22 +96,46 @@
       font-size: 18px;
       padding: 8px 20px;
       cursor: pointer;
+      margin-right: 8px;
     }
     #submit-btn:active {
       background: #499c4a;
+    }
+    #hint-btn {
+      background: #ffe466;
+      color: #ac8c00;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      padding: 8px 20px;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+    #hint-btn:active {
+      background: #ffea99;
+    }
+    #reward-msg {
+      color: #62bc5d;
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 18px;
+      min-height: 22px;
     }
   </style>
 </head>
 <body>
   <div id="game-container">
     <div id="level"></div>
+    <div id="sac-point"></div>
+    <div id="reward-msg"></div>
     <div id="grid"></div>
     <div id="input-word"></div>
     <div id="selector"></div>
     <button id="submit-btn">SUBMIT</button>
+    <button id="hint-btn">HINT</button>
   </div>
   <script type="module">
-    import WordConnectGame from './game.js';
+    import WordConnectGame, { SoundSystem } from './SupremeAmerWordConnectGameEnhanced.js';
 
     const WORDS = [
       "nft","hide","defi","veil","skin","skrill","stock","mining","website","bitcoin","secret","furtive","covert","latent","conceal","hideout","forex","stocks","secrete","stash","hider","hideling","hiddle","skulk","lurk","finance","disguise","investment","rawhide","private","trading","nfts","blindfold","cryptography","wrapper","dogecoin","equities","excoriate","derma","plaintext","mcafee","paddle box","abstruse","secrecy","mithe","mask","cutis","palliate","oxhide","unapparent","cover","hideaway","invisible","hide away","loinskin","mulch","wattson","meme","funds","undercover","gaming","reinsure","stable","fund","stonks","skinless","secretly","card","mirage","smart","revenant","decentralization","binance","coverer","malware","determinism","syllogisms","kernel","philo","viruses","regnant","gnostic","moby","ssh","cypher","scob","ultranationalism","pinko","screen smoke","epidermis","hele","fiat","pellage","beshroud","dermis","occult","market","canopy","paypal","recondite","skinner","overhele","obscure","goatskin","hiddenness","coverage","secretion","cutaneous","mysterious","obscurely","penetralia","deerskin","enshroud","camouflage","bescreen","security","blockchain","clandestine","concealment","surreptitious","stablecoin","wiggery","recursion","steganography","sovietism","neoconservativism"
@@ -107,19 +143,30 @@
     const game = new WordConnectGame(WORDS);
 
     const levelDiv = document.getElementById('level');
+    const sacPointDiv = document.getElementById('sac-point');
     const gridDiv = document.getElementById('grid');
     const selectorDiv = document.getElementById('selector');
     const inputWordDiv = document.getElementById('input-word');
     const submitBtn = document.getElementById('submit-btn');
+    const hintBtn = document.getElementById('hint-btn');
+    const rewardMsgDiv = document.getElementById('reward-msg');
 
     function render() {
       levelDiv.innerText = `LEVEL ${game.level + 1}`;
+      sacPointDiv.innerText = `$SAC-point: ${game.sacPoint.toLocaleString()}`;
+      rewardMsgDiv.innerText = '';
       // Render grid
       gridDiv.innerHTML = '';
       for (let i = 0; i < game.grid.length; i++) {
         const cell = document.createElement('div');
         cell.className = 'cell';
-        cell.innerText = (game.found.size > 0 ? game.grid[i] : '');
+        // Show if found or in hintRevealedIdx
+        if (game.found.size > 0 || game.hintRevealedIdx.includes(i)) {
+          cell.innerText = game.grid[i];
+          if (game.hintRevealedIdx.includes(i)) cell.classList.add('hint');
+        } else {
+          cell.innerText = '';
+        }
         gridDiv.appendChild(cell);
       }
       // Render selector
@@ -138,17 +185,30 @@
         selectorDiv.appendChild(div);
       });
       inputWordDiv.innerText = game.input;
+      hintBtn.innerText = `HINT (-${game.hintCost} $SAC-point)`;
     }
 
     submitBtn.onclick = () => {
-      if (game.tryWord(game.input)) {
-        alert('Correct!');
-        setTimeout(render, 500);
+      const result = game.tryWord(game.input);
+      if (result.correct) {
+        rewardMsgDiv.innerText = `Correct! +${result.reward} $SAC-point`;
+        setTimeout(() => {
+          render();
+        }, 700);
       } else {
-        alert('Try again!');
+        rewardMsgDiv.innerText = 'Try again!';
+        setTimeout(() => rewardMsgDiv.innerText = '', 700);
         game.input = "";
         document.querySelectorAll('.letter').forEach(x => x.classList.remove('selected'));
         inputWordDiv.innerText = '';
+      }
+      render();
+    };
+
+    hintBtn.onclick = () => {
+      const revealed = game.useHint();
+      if (revealed && revealed.length > 0) {
+        render();
       }
     };
 
