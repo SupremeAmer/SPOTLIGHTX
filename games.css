@@ -79,6 +79,34 @@ body {
     opacity: 1;
 }
 
+#chatPanel {
+    width: 300px;
+    height: 400px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow-y: scroll;
+    background-color: #f9f9f9;
+}
+
+#chatWindow {
+    height: 300px;
+    overflow-y: scroll;
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+#chatMessage {
+    width: 80%;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 5px;
+    cursor: pointer;
+}
+
 /* Buttons */
 button {
     padding: 12px 25px;
