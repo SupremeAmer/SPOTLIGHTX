@@ -4,27 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SupremeAmer Coin Mining</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.cs
+ <style>
+        #progressBarContainer { width: 100%; background: #ccc; height: 20px; }
+        #progressBar { width: 0%; height: 100%; background: green; }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>SupremeAmer Coin Mining</h1>
-    </header>
-
-    <main>
-     
-
-        <div class="dashboard">
-            <h2>Mining Balance: <span id="balance">0</span> SupremeAmer</h2>
-            <button id="startMining">Start Mining</button>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-        </div>
+    <h1>Mining Dashboard</h1>
+    <button id="startMining">Start Mining</button>
+    <button id="upgradeSpeed">Upgrade Speed</button>
+    <div id="progressBarContainer">
+        <div id="progressBar"></div>
+    </div>
+    <h2>Balance: <span id="balance">0.00</span></h2>
+</body>
+</html>
 
 
            
-        </div>
+      
            <div class="logo-container">
             <img src="sup.png" alt="SupremeAmer Coin Logo" class="animated-logo" width="450px" height="450px">
         </div>
