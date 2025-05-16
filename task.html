@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>SupremeAmer Word Connect Game</title>
+  <meta name="viewport" content="width=340, initial-scale=1">
   <style>
     body {
       background: #e0ffef;
@@ -11,208 +12,353 @@
       margin: 0;
       padding: 0;
     }
-    #game-container {
-      margin: 30px auto;
+    #main-content {
+      min-height: 600px;
+      max-width: 340px;
+      margin: 30px auto 0 auto;
       background: #fff;
-      border-radius: 14px;
+      border-radius: 14px 14px 0 0;
       box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-      width: 340px;
-      padding: 25px 10px;
+      padding: 25px 10px 80px 10px;
       position: relative;
+      overflow: hidden;
     }
-    #level {
-      font-weight: bold;
-      color: #62bc5d;
-      margin-bottom: 12px;
-      font-size: 20px;
-    }
-    #sac-point {
-      color: #e3b700;
-      margin-bottom: 8px;
-      font-size: 17px;
-      font-weight: bold;
-    }
-    #grid {
+    #footer {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      width: 340px;
+      max-width: 100vw;
+      margin: 0 auto;
+      background: #e0ffef;
+      border-top: 1px solid #cdeacd;
       display: flex;
-      justify-content: center;
-      gap: 4px;
-      flex-wrap: wrap;
-      margin: 18px 0 28px;
-    }
-    .cell {
-      width: 34px;
-      height: 34px;
-      display: inline-flex;
+      justify-content: space-around;
       align-items: center;
-      justify-content: center;
-      background: #f2fff7;
-      border: 2px solid #62bc5d;
-      border-radius: 8px;
-      margin: 2px;
-      font-size: 22px;
+      height: 60px;
+      z-index: 99;
+    }
+    .footer-btn {
+      background: #ffe466;
       color: #333;
-      font-weight: bold;
-      transition: background 0.2s;
-    }
-    .cell.hint {
-      background: #ffe466;
-      border-color: #e3b700;
-      color: #ac8c00;
-    }
-    #selector {
-      margin: 0 auto 20px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
-    .letter {
-      width: 44px;
-      height: 44px;
-      background: #ffe466;
       border: 2px solid #e3b700;
-      border-radius: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
+      border-radius: 8px;
+      font-size: 16px;
       font-weight: bold;
+      padding: 8px 18px;
       cursor: pointer;
+      margin: 0 4px;
       transition: background 0.15s;
-      user-select: none;
     }
-    .letter.selected {
+    .footer-btn.active, .footer-btn:active {
       background: #ffd966;
     }
-    #input-word {
-      font-size: 22px;
-      letter-spacing: 3px;
-      margin-bottom: 12px;
-    }
-    #submit-btn {
-      background: #62bc5d;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      padding: 8px 20px;
-      cursor: pointer;
-      margin-right: 8px;
-    }
-    #submit-btn:active {
-      background: #499c4a;
-    }
-    #hint-btn {
-      background: #ffe466;
-      color: #ac8c00;
-      border: none;
-      border-radius: 8px;
-      font-size: 17px;
-      padding: 8px 20px;
-      cursor: pointer;
-      margin-left: 8px;
-    }
-    #hint-btn:active {
-      background: #ffea99;
-    }
-    #reward-msg {
-      color: #62bc5d;
-      font-weight: bold;
-      margin-bottom: 10px;
-      font-size: 18px;
-      min-height: 22px;
+    /* Game styles (same as before, shortened for brevity) */
+    #level { font-weight: bold; color: #62bc5d; margin-bottom: 12px; font-size: 20px; }
+    #sac-point { color: #e3b700; margin-bottom: 8px; font-size: 17px; font-weight: bold; }
+    #grid { display: flex; justify-content: center; gap: 4px; flex-wrap: wrap; margin: 18px 0 28px;}
+    .cell { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; background: #f2fff7; border: 2px solid #62bc5d; border-radius: 8px; margin: 2px; font-size: 22px; color: #333; font-weight: bold; transition: background 0.2s;}
+    .cell.hint { background: #ffe466; border-color: #e3b700; color: #ac8c00;}
+    #selector { margin: 0 auto 20px; display: flex; justify-content: center; gap: 10px;}
+    .letter { width: 44px; height: 44px; background: #ffe466; border: 2px solid #e3b700; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; cursor: pointer; transition: background 0.15s; user-select: none;}
+    .letter.selected { background: #ffd966;}
+    #input-word { font-size: 22px; letter-spacing: 3px; margin-bottom: 12px;}
+    #submit-btn { background: #62bc5d; color: #fff; border: none; border-radius: 8px; font-size: 18px; padding: 8px 20px; cursor: pointer; margin-right: 8px;}
+    #submit-btn:active { background: #499c4a;}
+    #hint-btn { background: #ffe466; color: #ac8c00; border: none; border-radius: 8px; font-size: 17px; padding: 8px 20px; cursor: pointer; margin-left: 8px;}
+    #hint-btn:active { background: #ffea99;}
+    #reward-msg { color: #62bc5d; font-weight: bold; margin-bottom: 10px; font-size: 18px; min-height: 22px;}
+    /* Task styles */
+    #task-list {text-align: left; margin: 20px auto; max-width: 300px;}
+    .task-item {display: flex; align-items: center; margin-bottom: 14px; background: #f7f7f7; border-radius: 8px; padding: 8px;}
+    .task-item.completed {opacity:0.5; text-decoration:line-through;}
+    .task-title {flex:1;}
+    .complete-btn {background: #62bc5d; color: #fff; border: none; border-radius: 8px; font-size: 14px; padding: 6px 12px; cursor: pointer;}
+    /* Wallet styles */
+    #wallet-content {margin: 34px 0;}
+    #connect-wallet-btn {background: #62bc5d; color: #fff; border: none; border-radius: 8px; font-size: 16px; padding: 10px 26px; cursor: pointer;}
+    #wallet-address {font-size: 14px; color: #444; margin-top: 8px; word-break: break-all;}
+    /* Responsive for small screens */
+    @media (max-width: 350px) {
+      #main-content, #footer { width: 100vw; min-width: 0; }
     }
   </style>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <!-- ethers.js for Wallet Connect -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 </head>
 <body>
-  <div id="game-container">
-    <div id="level"></div>
-    <div id="sac-point"></div>
-    <div id="reward-msg"></div>
-    <div id="grid"></div>
-    <div id="input-word"></div>
-    <div id="selector"></div>
-    <button id="submit-btn">SUBMIT</button>
-    <button id="hint-btn">HINT</button>
+  <div id="main-content"></div>
+  <div id="footer">
+    <button class="footer-btn active" id="home-btn">Home</button>
+    <button class="footer-btn" id="task-btn">Task</button>
+    <button class="footer-btn" id="wallet-btn">Wallet</button>
   </div>
-  <script type="module">
-    import WordConnectGame, { SoundSystem } from './game.js';
+  <script>
+    // --- Firebase config (replace with your own) ---
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      databaseURL: "YOUR_DATABASE_URL",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    // -- END Firebase config --
 
+    // --- Game Data ---
     const WORDS = [
       "nft","hide","defi","veil","skin","skrill","stock","mining","website","bitcoin","secret","furtive","covert","latent","conceal","hideout","forex","stocks","secrete","stash","hider","hideling","hiddle","skulk","lurk","finance","disguise","investment","rawhide","private","trading","nfts","blindfold","cryptography","wrapper","dogecoin","equities","excoriate","derma","plaintext","mcafee","paddle box","abstruse","secrecy","mithe","mask","cutis","palliate","oxhide","unapparent","cover","hideaway","invisible","hide away","loinskin","mulch","wattson","meme","funds","undercover","gaming","reinsure","stable","fund","stonks","skinless","secretly","card","mirage","smart","revenant","decentralization","binance","coverer","malware","determinism","syllogisms","kernel","philo","viruses","regnant","gnostic","moby","ssh","cypher","scob","ultranationalism","pinko","screen smoke","epidermis","hele","fiat","pellage","beshroud","dermis","occult","market","canopy","paypal","recondite","skinner","overhele","obscure","goatskin","hiddenness","coverage","secretion","cutaneous","mysterious","obscurely","penetralia","deerskin","enshroud","camouflage","bescreen","security","blockchain","clandestine","concealment","surreptitious","stablecoin","wiggery","recursion","steganography","sovietism","neoconservativism"
     ];
-    const game = new WordConnectGame(WORDS);
+    // Example tasks for Task tab
+    const DEFAULT_TASKS = [
+      {id: 't1', title: 'Invite a friend', completed: false},
+      {id: 't2', title: 'Play 5 game levels', completed: false},
+      {id: 't3', title: 'Share your score', completed: false},
+      {id: 't4', title: 'Set your profile avatar', completed: false}
+    ];
 
-    const levelDiv = document.getElementById('level');
-    const sacPointDiv = document.getElementById('sac-point');
-    const gridDiv = document.getElementById('grid');
-    const selectorDiv = document.getElementById('selector');
-    const inputWordDiv = document.getElementById('input-word');
-    const submitBtn = document.getElementById('submit-btn');
-    const hintBtn = document.getElementById('hint-btn');
-    const rewardMsgDiv = document.getElementById('reward-msg');
+    // --- Firebase User ID (Anonymous for demo) ---
+    let USER_ID = localStorage.getItem('SAC_UID') || ('user_'+Math.random().toString(36).slice(2));
+    localStorage.setItem('SAC_UID', USER_ID);
 
+    // --- State ---
+    let state = {
+      view: 'home', // home | task | wallet
+      game: {
+        level: 0,
+        sacPoint: 0,
+        hintRevealedIdx: [],
+        found: [],
+      },
+      tasks: JSON.parse(JSON.stringify(DEFAULT_TASKS)), // deep copy
+      wallet: {
+        address: null
+      }
+    };
+
+    // ---- Firebase Persistence ----
+    function saveToFirebase() {
+      db.ref('users/'+USER_ID).set({
+        game: state.game,
+        tasks: state.tasks,
+        wallet: state.wallet
+      });
+    }
+    function loadFromFirebase() {
+      return db.ref('users/'+USER_ID).once('value').then(snapshot=>{
+        if(snapshot.exists()) {
+          const data = snapshot.val();
+          if (data.game) state.game = data.game;
+          if (data.tasks) state.tasks = data.tasks;
+          if (data.wallet) state.wallet = data.wallet;
+        }
+      });
+    }
+
+    // --- Simple Game Logic ---
+    function shuffle(array) {
+      let currentIndex = array.length, randomIndex;
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+      }
+      return array;
+    }
+    function getLetters(word) {
+      return shuffle(Array.from(word.replace(/ /g, '').toUpperCase()));
+    }
+    function generateGrid(word) {
+      return Array.from(word.replace(/ /g, '').toUpperCase());
+    }
+    function getCurrentReward(level) {
+      let reward = 100 * (level + 1);
+      if (reward > 3000000) reward = 3000000;
+      return reward;
+    }
+    function getHintCost(level) {
+      if (level < 10) return 20;
+      else if (level < 50) return 100;
+      else if (level < 100) return 1000;
+      else return 10000;
+    }
+
+    // --- Rendering ---
+    const mainContent = document.getElementById('main-content');
     function render() {
-      levelDiv.innerText = `LEVEL ${game.level + 1}`;
-      sacPointDiv.innerText = `$SAC-point: ${game.sacPoint.toLocaleString()}`;
-      rewardMsgDiv.innerText = '';
+      document.getElementById('home-btn').classList.toggle('active', state.view==='home');
+      document.getElementById('task-btn').classList.toggle('active', state.view==='task');
+      document.getElementById('wallet-btn').classList.toggle('active', state.view==='wallet');
+      if (state.view === 'home') renderGame();
+      else if (state.view === 'task') renderTask();
+      else if (state.view === 'wallet') renderWallet();
+    }
+
+    // --- Game View ---
+    function renderGame() {
+      const level = state.game.level || 0;
+      const word = WORDS[level];
+      if (!word) {
+        mainContent.innerHTML = `<h2>Congratulations!<br>You finished all levels!</h2>`;
+        return;
+      }
+      const grid = generateGrid(word);
+      const letters = getLetters(word);
+      const hintRevealedIdx = state.game.hintRevealedIdx || [];
+      const found = (state.game.found||[]).includes(level);
+      const sacPoint = state.game.sacPoint||0;
+      mainContent.innerHTML = `
+        <div id="level">LEVEL ${level+1}</div>
+        <div id="sac-point">$SAC-point: ${sacPoint.toLocaleString()}</div>
+        <div id="reward-msg"></div>
+        <div id="grid"></div>
+        <div id="input-word"></div>
+        <div id="selector"></div>
+        <button id="submit-btn">SUBMIT</button>
+        <button id="hint-btn">HINT (-${getHintCost(level)} $SAC-point)</button>
+      `;
       // Render grid
-      gridDiv.innerHTML = '';
-      for (let i = 0; i < game.grid.length; i++) {
+      const gridDiv = document.getElementById('grid');
+      for (let i = 0; i < grid.length; i++) {
         const cell = document.createElement('div');
         cell.className = 'cell';
-        // Show if found or in hintRevealedIdx
-        if (game.found.size > 0 || game.hintRevealedIdx.includes(i)) {
-          cell.innerText = game.grid[i];
-          if (game.hintRevealedIdx.includes(i)) cell.classList.add('hint');
+        if (found || hintRevealedIdx.includes(i)) {
+          cell.innerText = grid[i];
+          if (hintRevealedIdx.includes(i)) cell.classList.add('hint');
         } else {
           cell.innerText = '';
         }
         gridDiv.appendChild(cell);
       }
       // Render selector
-      selectorDiv.innerHTML = '';
-      game.letters.forEach((letter, i) => {
+      const selectorDiv = document.getElementById('selector');
+      let input = '';
+      letters.forEach((letter, idx) => {
         const div = document.createElement('div');
         div.className = 'letter';
         div.innerText = letter;
         div.onclick = () => {
           if (!div.classList.contains('selected')) {
             div.classList.add('selected');
-            game.input += letter;
-            inputWordDiv.innerText = game.input;
+            input += letter;
+            document.getElementById('input-word').innerText = input;
           }
         };
         selectorDiv.appendChild(div);
       });
-      inputWordDiv.innerText = game.input;
-      hintBtn.innerText = `HINT (-${game.hintCost} $SAC-point)`;
-    }
-
-    submitBtn.onclick = () => {
-      const result = game.tryWord(game.input);
-      if (result.correct) {
-        rewardMsgDiv.innerText = `Correct! +${result.reward} $SAC-point`;
-        setTimeout(() => {
-          render();
-        }, 700);
-      } else {
-        rewardMsgDiv.innerText = 'Try again!';
-        setTimeout(() => rewardMsgDiv.innerText = '', 700);
-        game.input = "";
-        document.querySelectorAll('.letter').forEach(x => x.classList.remove('selected'));
-        inputWordDiv.innerText = '';
+      // Submit
+      document.getElementById('submit-btn').onclick = () => {
+        if (input.replace(/ /g, '').toLowerCase() === word.replace(/ /g, '').toLowerCase()) {
+          const reward = getCurrentReward(level);
+          state.game.sacPoint = (state.game.sacPoint||0) + reward;
+          state.game.level = level + 1;
+          state.game.hintRevealedIdx = [];
+          state.game.found = state.game.found||[];
+          state.game.found.push(level);
+          document.getElementById('reward-msg').innerText = `Correct! +${reward} $SAC-point`;
+          saveToFirebase();
+          setTimeout(render, 900);
+        } else {
+          document.getElementById('reward-msg').innerText = 'Try again!';
+          input = '';
+          document.querySelectorAll('.letter').forEach(x => x.classList.remove('selected'));
+          document.getElementById('input-word').innerText = '';
+        }
       }
-      render();
-    };
-
-    hintBtn.onclick = () => {
-      const revealed = game.useHint();
-      if (revealed && revealed.length > 0) {
+      // Hint
+      document.getElementById('hint-btn').onclick = () => {
+        const cost = getHintCost(level);
+        if ((state.game.sacPoint||0) < cost) {
+          alert("Not enough $SAC-point for hint!");
+          return;
+        }
+        let unrevealed = [];
+        for (let i=0; i<grid.length; i++) {
+          if (!hintRevealedIdx.includes(i)) unrevealed.push(i);
+        }
+        if (unrevealed.length === 0) return;
+        let revealCount = Math.min(2, unrevealed.length);
+        for (let i=0; i<revealCount; i++) {
+          let idx = unrevealed.splice(Math.floor(Math.random()*unrevealed.length), 1)[0];
+          state.game.hintRevealedIdx.push(idx);
+        }
+        state.game.sacPoint -= cost;
+        saveToFirebase();
         render();
       }
-    };
+    }
 
-    render();
+    // --- Task View ---
+    function renderTask() {
+      let tasks = state.tasks || [];
+      mainContent.innerHTML = `
+        <h2>Your Tasks</h2>
+        <div id="task-list"></div>
+      `;
+      const taskList = document.getElementById('task-list');
+      tasks.forEach((task, idx) => {
+        const div = document.createElement('div');
+        div.className = 'task-item' + (task.completed ? ' completed' : '');
+        div.innerHTML = `<span class="task-title">${task.title}</span>` +
+          (!task.completed ? `<button class="complete-btn">Complete</button>` : `<span>✔️</span>`);
+        taskList.appendChild(div);
+        if (!task.completed) {
+          div.querySelector('.complete-btn').onclick = () => {
+            state.tasks[idx].completed = true;
+            state.game.sacPoint = (state.game.sacPoint||0) + 15;
+            saveToFirebase();
+            render();
+          };
+        }
+      });
+      // Remove completed tasks visually
+      state.tasks = tasks.filter(x=>!x.completed).concat(tasks.filter(x=>x.completed));
+    }
+
+    // --- Wallet View ---
+    function renderWallet() {
+      let address = state.wallet.address;
+      mainContent.innerHTML = `
+        <h2>SupremeAmer Wallet</h2>
+        <div id="wallet-content">
+          <div style="font-size:24px; color:#e3b700; margin-bottom:10px;">$SAC-point: ${(state.game.sacPoint||0).toLocaleString()}</div>
+          <button id="connect-wallet-btn">${address ? "Connected" : "Connect Wallet"}</button>
+          <div id="wallet-address">${address ? "Address: " + address : ""}</div>
+        </div>
+      `;
+      document.getElementById('connect-wallet-btn').onclick = async () => {
+        if (address) return;
+        if (typeof window.ethereum === 'undefined') {
+          alert('Web3 wallet not found. Please install MetaMask or similar.');
+          return;
+        }
+        try {
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          await provider.send("eth_requestAccounts", []);
+          const signer = provider.getSigner();
+          const addr = await signer.getAddress();
+          state.wallet.address = addr;
+          saveToFirebase();
+          render();
+        } catch (e) {
+          alert('Wallet connection failed!');
+        }
+      };
+    }
+
+    // --- Footer Navigation ---
+    document.getElementById('home-btn').onclick = ()=>{ state.view='home'; render(); };
+    document.getElementById('task-btn').onclick = ()=>{ state.view='task'; render(); };
+    document.getElementById('wallet-btn').onclick = ()=>{ state.view='wallet'; render(); };
+
+    // --- Load from Firebase then Render ---
+    loadFromFirebase().then(render);
+
   </script>
 </body>
 </html>
