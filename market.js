@@ -5,6 +5,28 @@ function showLand() {
     landSection.style.display = "block";
     toolsSection.style.display = "none";
 
+    
+    function buyLand(landType, period, speed, background) {
+    const miningData = {
+        landType: landType,
+        miningPeriod: period,
+        miningSpeed: speed,
+        background: background,
+        minedResources: {}
+    };
+
+    localStorage.setItem("miningData", JSON.stringify(miningData));
+    alert(`You purchased ${landType} mining land!`);
+}
+
+function buyTool(toolSpeed) {
+    let miningData = JSON.parse(localStorage.getItem("miningData")) || {};
+    miningData.miningSpeed = toolSpeed;
+    localStorage.setItem("miningData", JSON.stringify(miningData));
+    alert(`Mining speed upgraded to ${toolSpeed}!`);
+}
+
+
     // Adding smooth fade-in effect
     landSection.style.opacity = 0;
     setTimeout(() => landSection.style.opacity = 1, 200);
