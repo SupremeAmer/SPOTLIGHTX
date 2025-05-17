@@ -33,18 +33,16 @@
     #connect-wallet-btn {background: #62bc5d; color: #fff; border: none; border-radius: 8px; font-size: 16px; padding: 10px 26px; cursor: pointer;}
     #wallet-address {font-size: 14px; color: #444; margin-top: 8px; word-break: break-all;}
     #user-display {font-size: 15px; color:#333; margin-bottom:10px;}
-    #auth-form {max-width: 360px; margin: 100px auto 0 auto; background: #fff7e2; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); padding: 28px 16px;}
-    #auth-form input {width: 85%; padding: 10px; margin: 10px 0; border-radius:8px; border:1px solid #ccc;}
-    #auth-form button {padding: 10px 24px; border:none; border-radius:8px; background:#62bc5d; color:#fff; font-size:16px; font-weight:bold; cursor:pointer;}
-    #auth-error {color:#c00; font-size:14px;}
+    #google-auth-area {max-width: 360px; margin: 100px auto 0 auto; background: #fff7e2; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); padding: 28px 16px;}
     @media (max-width: 350px) {
       #main-content, #footer { width: 100vw; min-width: 0; }
     }
   </style>
+  <!-- Google Sign-In -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <!-- ethers.js for Wallet Connect -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 </head>
@@ -56,7 +54,7 @@
     <button class="footer-btn" id="wallet-btn">Wallet</button>
   </div>
   <script>
-    // --- Firebase config (replace with your own) ---
+      // --- Firebase config (replace with your own) ---
    const firebaseConfig = {
   apiKey: "AIzaSyBVfVTOens--o6K12o2o9xoBHn2QgRtHTI",
   authDomain: "supremeamer-e6423.firebaseapp.com",
@@ -65,14 +63,15 @@
   messagingSenderId: "1018937590006",
   appId: "1:1018937590006:web:dc65f632afd8ef24132cd7"
 };
-
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const auth = firebase.auth();
+
+    // Your Google Client ID from Google Cloud Console
+    const GOOGLE_CLIENT_ID = "162953436158-1lhj30tqs7hvh2r9jschd01qlnsu0pj7.apps.googleusercontent.com";
 
     // --- Game Data ---
     const WORDS = [
-      "nft","hide","defi","veil","skin","skrill","stock","mining","website","bitcoin","secret","furtive","covert", "Supreme", "latent","conceal","hideout","forex","stocks","secrete","stash","hider","hideling","hiddle","skulk","lurk","finance","disguise","investment","rawhide","private","trading","nfts","blindfold","cryptography","wrapper","dogecoin","equities","excoriate","derma","plaintext","mcafee","paddle box","abstruse","secrecy","mithe","mask","cutis","palliate","oxhide","unapparent","cover","hideaway","invisible","hide away","loinskin","mulch","wattson","meme","funds","undercover","gaming","reinsure","stable","fund","stonks","skinless","secretly","card","mirage","smart","revenant","decentralization","binance","coverer","malware","determinism","syllogisms","kernel","philo","viruses","regnant","gnostic","moby","ssh","cypher","scob","ultranationalism","pinko","screen smoke","epidermis","hele","fiat","pellage","beshroud","dermis","occult","market","canopy","paypal","recondite","skinner","overhele","obscure","goatskin","hiddenness","coverage","secretion","cutaneous","mysterious","obscurely","penetralia","deerskin","enshroud","camouflage","bescreen","security","blockchain","clandestine","concealment","surreptitious","stablecoin","wiggery","recursion","steganography","sovietism","neoconservativism"
+      "nft","hide","defi","veil","skin","skrill","stock","mining","website","bitcoin","secret","furtive","covert","latent","conceal","hideout","forex","stocks","secrete","stash","hider","hideling","hiddle","skulk","lurk","finance","disguise","investment","rawhide","private","trading","nfts","blindfold","cryptography","wrapper","dogecoin","equities","excoriate","derma","plaintext","mcafee","paddle box","abstruse","secrecy","mithe","mask","cutis","palliate","oxhide","unapparent","cover","hideaway","invisible","hide away","loinskin","mulch","wattson","meme","funds","undercover","gaming","reinsure","stable","fund","stonks","skinless","secretly","card","mirage","smart","revenant","decentralization","binance","coverer","malware","determinism","syllogisms","kernel","philo","viruses","regnant","gnostic","moby","ssh","cypher","scob","ultranationalism","pinko","screen smoke","epidermis","hele","fiat","pellage","beshroud","dermis","occult","market","canopy","paypal","recondite","skinner","overhele","obscure","goatskin","hiddenness","coverage","secretion","cutaneous","mysterious","obscurely","penetralia","deerskin","enshroud","camouflage","bescreen","security","blockchain","clandestine","concealment","surreptitious","stablecoin","wiggery","recursion","steganography","sovietism","neoconservativism"
     ];
     const DEFAULT_TASKS = [
       {id: 't1', title: 'Invite a friend', completed: false},
@@ -82,19 +81,12 @@
     ];
 
     let state = {
-      view: 'home', // home | task | wallet
-      game: {
-        level: 0,
-        sacPoint: 0,
-        hintRevealedIdx: [],
-        found: [],
-      },
+      view: 'home',
+      game: { level: 0, sacPoint: 0, hintRevealedIdx: [], found: [] },
       tasks: JSON.parse(JSON.stringify(DEFAULT_TASKS)),
-      wallet: {
-        address: null
-      }
+      wallet: { address: null }
     };
-    let userId = null, username = null;
+    let userId = null, username = null, userEmail = null;
 
     function saveToFirebase() {
       if(!userId) return;
@@ -154,7 +146,7 @@
     function renderGame() {
       const level = state.game.level || 0;
       const word = WORDS[level];
-      let userHtml = `<div id="user-display">👤 ${username}</div>`;
+      let userHtml = `<div id="user-display">👤 ${username||""}</div>`;
       if (!word) {
         mainContent.innerHTML = userHtml + `<h2>Congratulations!<br>You finished all levels!</h2>`;
         return;
@@ -242,7 +234,7 @@
     }
     function renderTask() {
       let tasks = state.tasks || [];
-      mainContent.innerHTML = `<div id="user-display">👤 ${username}</div><h2>Your Tasks</h2><div id="task-list"></div>`;
+      mainContent.innerHTML = `<div id="user-display">👤 ${username||""}</div><h2>Your Tasks</h2><div id="task-list"></div>`;
       const taskList = document.getElementById('task-list');
       tasks.forEach((task, idx) => {
         const div = document.createElement('div');
@@ -264,7 +256,7 @@
     function renderWallet() {
       let address = state.wallet.address;
       mainContent.innerHTML = `
-        <div id="user-display">👤 ${username}</div>
+        <div id="user-display">👤 ${username||""}</div>
         <h2>SupremeAmer Wallet</h2>
         <div id="wallet-content">
           <div style="font-size:24px; color:#e3b700; margin-bottom:10px;">$SAC-point: ${(state.game.sacPoint||0).toLocaleString()}</div>
@@ -295,75 +287,54 @@
     document.getElementById('task-btn').onclick = ()=>{ state.view='task'; render(); };
     document.getElementById('wallet-btn').onclick = ()=>{ state.view='wallet'; render(); };
 
-  
-  // ---- Email/Google Auth / Sign Up ----
-  function showAuthForm(errorMsg = "") {
-    document.getElementById('footer').style.display = "none";
-    mainContent.innerHTML = `
-      <form id="auth-form" autocomplete="off">
-        <h2>Sign In or Register</h2>
-        <input type="email" id="auth-email" placeholder="Email" required autocomplete="username">
-        <input type="password" id="auth-pass" placeholder="Password" required autocomplete="current-password">
-        <button type="submit">Sign In / Register</button>
-        <div style="margin:16px 0;">OR</div>
-        <button type="button" id="google-signin-btn" style="background:#fff; color:#333; border:1px solid #ccc; border-radius:8px; font-size:16px; padding:10px 24px; cursor:pointer;">
-          <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="width:22px; vertical-align:middle; margin-right:8px;">
-          Sign in with Google
-        </button>
-        <div id="auth-error">${errorMsg}</div>
-      </form>
-    `;
-    document.getElementById('auth-form').onsubmit = async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('auth-email').value.trim();
-      const pass = document.getElementById('auth-pass').value;
-      try {
-        let userCred = await auth.signInWithEmailAndPassword(email, pass);
-        handleSignedIn(userCred.user);
-      } catch (e) {
-        if (e.code === "auth/user-not-found") {
-          // Try creating user
-          try {
-            let userCred = await auth.createUserWithEmailAndPassword(email, pass);
-            handleSignedIn(userCred.user);
-          } catch (e2) {
-            showAuthForm(e2.message);
-          }
-        } else {
-          showAuthForm(e.message);
-        }
-      }
-    };
-
-    // Google Sign-In button handler
-    document.getElementById('google-signin-btn').onclick = async () => {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      try {
-        let result = await auth.signInWithPopup(provider);
-        handleSignedIn(result.user);
-      } catch (e) {
-        showAuthForm(e.message);
-      }
-    };
-  }
-
-  function handleSignedIn(user) {
-    // Username: email part before @ (or for Google, fallback to displayName if no email)
-    username = user.email ? user.email.split('@')[0] : (user.displayName || "user");
-    userId = username;
-    loadFromFirebase().then(render);
-  }
-
-  // On page load, show auth form or resume session
-  auth.onAuthStateChanged(function(user) {
-    if (user) {
-      handleSignedIn(user);
-    } else {
-      showAuthForm();
+    // ---- Google Sign-In with Google Identity Services ----
+    function showGoogleAuth(errorMsg = "") {
+      document.getElementById('footer').style.display = "none";
+      mainContent.innerHTML = `
+        <div id="google-auth-area">
+          <h2>Sign In with Google</h2>
+          <div id="g_id_onload"
+            data-client_id="${GOOGLE_CLIENT_ID}"
+            data-auto_prompt="false"
+            data-callback="onGoogleSignIn">
+          </div>
+          <div class="g_id_signin"
+               data-type="standard"
+               data-shape="rectangular"
+               data-theme="outline"
+               data-text="sign_in_with"
+               data-size="large"
+               data-logo_alignment="left">
+          </div>
+          <div id="auth-error" style="color:#c00">${errorMsg||''}</div>
+        </div>
+      `;
     }
-  });
 
+    // Expose callback for Google Sign-In SDK
+    window.onGoogleSignIn = async function(googleUser) {
+      try {
+        const id_token = googleUser.credential;
+        // Get basic profile info from JWT
+        const payload = JSON.parse(atob(id_token.split('.')[1]));
+        userEmail = payload.email;
+        username = payload.name || payload.email.split('@')[0];
+        userId = payload.sub; // Use Google unique user ID (not email)
+        await loadFromFirebase();
+        render();
+      } catch (e) {
+        showGoogleAuth('Google authentication failed.');
+      }
+    };
 
+    window.onload = function() {
+      showGoogleAuth();
+    };
   </script>
 </body>
 </html>
+   
+
+  
+
+   
