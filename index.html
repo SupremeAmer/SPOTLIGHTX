@@ -34,6 +34,9 @@
     #wallet-address {font-size: 14px; color: #444; margin-top: 8px; word-break: break-all;}
     #user-display {font-size: 15px; color:#333; margin-bottom:10px;}
     #google-auth-area {max-width: 360px; margin: 100px auto 0 auto; background: #fff7e2; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); padding: 28px 16px;}
+    #google-btn-custom {display: inline-flex; align-items: center; gap: 8px; padding: 12px 32px; border:none; border-radius:8px; background:#4285F4; color:#fff; font-size:17px; font-weight:bold; cursor:pointer;}
+    #google-btn-custom img {height: 22px;}
+    #auth-error {color:#c00; font-size:14px;}
     @media (max-width: 350px) {
       #main-content, #footer { width: 100vw; min-width: 0; }
     }
@@ -54,7 +57,8 @@
     <button class="footer-btn" id="wallet-btn">Wallet</button>
   </div>
   <script>
-      // --- Firebase config (replace with your own) ---
+    // --- Your Firebase config here ---
+ // --- Firebase config (replace with your own) ---
    const firebaseConfig = {
   apiKey: "AIzaSyBVfVTOens--o6K12o2o9xoBHn2QgRtHTI",
   authDomain: "supremeamer-e6423.firebaseapp.com",
@@ -63,11 +67,12 @@
   messagingSenderId: "1018937590006",
   appId: "1:1018937590006:web:dc65f632afd8ef24132cd7"
 };
+    };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
     // Your Google Client ID from Google Cloud Console
-    const GOOGLE_CLIENT_ID = "162953436158-1lhj30tqs7hvh2r9jschd01qlnsu0pj7.apps.googleusercontent.com";
+   const GOOGLE_CLIENT_ID = "162953436158-1lhj30tqs7hvh2r9jschd01qlnsu0pj7.apps.googleusercontent.com";
 
     // --- Game Data ---
     const WORDS = [
@@ -287,34 +292,39 @@
     document.getElementById('task-btn').onclick = ()=>{ state.view='task'; render(); };
     document.getElementById('wallet-btn').onclick = ()=>{ state.view='wallet'; render(); };
 
-    // ---- Google Sign-In with Google Identity Services ----
+    // ---- Google Sign-In: Custom Button & Popup ----
+    let googleAccounts;
     function showGoogleAuth(errorMsg = "") {
       document.getElementById('footer').style.display = "none";
       mainContent.innerHTML = `
         <div id="google-auth-area">
           <h2>Sign In with Google</h2>
-          <div id="g_id_onload"
-            data-client_id="${GOOGLE_CLIENT_ID}"
-            data-auto_prompt="false"
-            data-callback="onGoogleSignIn">
-          </div>
-          <div class="g_id_signin"
-               data-type="standard"
-               data-shape="rectangular"
-               data-theme="outline"
-               data-text="sign_in_with"
-               data-size="large"
-               data-logo_alignment="left">
-          </div>
+          <button id="google-btn-custom">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png" alt="Google" />
+            Sign in with Google
+          </button>
           <div id="auth-error" style="color:#c00">${errorMsg||''}</div>
         </div>
       `;
+      document.getElementById('google-btn-custom').onclick = () => {
+        if (!googleAccounts) {
+          googleAccounts = google.accounts.id;
+          googleAccounts.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: onGoogleSignIn,
+          });
+        }
+        googleAccounts.prompt((notification) => {
+          if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+            // If popup blocked or closed, show error
+            document.getElementById('auth-error').textContent = "Google sign-in was canceled or blocked.";
+          }
+        });
+      };
     }
-
-    // Expose callback for Google Sign-In SDK
-    window.onGoogleSignIn = async function(googleUser) {
+    window.onGoogleSignIn = async function(response) {
       try {
-        const id_token = googleUser.credential;
+        const id_token = response.credential;
         // Get basic profile info from JWT
         const payload = JSON.parse(atob(id_token.split('.')[1]));
         userEmail = payload.email;
@@ -333,8 +343,6 @@
   </script>
 </body>
 </html>
-   
-
-  
-
+     
+    
    
