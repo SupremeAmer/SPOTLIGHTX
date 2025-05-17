@@ -16,14 +16,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
-      # Install Firebase CLI
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
+      - name: Install dependencies
+        run: npm install
 
-      # Deploy to Firebase Hosting
+      - name: Build
+        run: npm run build
+
       - name: Deploy to Firebase Hosting
-        run: firebase deploy --only hosting
-        env:
-         FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SUPREMEAMER_E6423 }}
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SUPREMEAMER_E6423 }}'
+          channelId: live
+          projectId: supremeamer-e6423  # <-- Replace with your actual Firebase project ID
