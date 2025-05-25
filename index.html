@@ -34,7 +34,7 @@
     #wallet-address {font-size: 14px; color: #444; margin-top: 8px; word-break: break-all;}
     #user-display {font-size: 15px; color:#333; margin-bottom:10px;}
     @media (max-width: 350px) {
-      #main-content, #footer { width: 100vw; min-width: 0; }
+      #main-content, #footer { width: 90vw; min-width: 0; }
     }
   </style>
    <!-- React & ReactDOM -->
@@ -64,59 +64,59 @@ const WORDS = [
   "nft","hide","defi","veil","skin","skrill","stock","mining","website","bitcoin",
   "secret","furtive","covert","latent","conceal","hideout","forex","stocks","secrete","stash",
   "hider","hideling","hidden","exposed","anonymous","pseudonym","incognito","mask","pokerface","cloak"business
-"services
-"products
-"software
-"research
-"comments
-"national
-"internetshipping
+"services"
+"products"
+"software"
+"research"
+"comments"
+"national"
+"internetshipping"
   
-reserved
-security
-american
-computer
-download
-pictures
-personal
-location
-children
-students
-shopping
-previous
-property
-customer
-december
-training
-advanced
-category
-register
-november
-features
-industry
-provided
-required
-articles
-feedback
-complete
-standard
-programs
-language
-password
-question
-building
-february
-analysis
-possible
-problems
-interest
-learning
-delivery
-original
-includes
-messages
-provides
-specific
+"reserved"
+"security"
+"american"
+"computer"
+"download"
+"pictures"
+"personal"
+"location"
+"children"
+"students"
+"shopping"
+"previous"
+"property"
+"customer"
+"december"
+"training"
+"advanced"
+"category"
+"register"
+"november"
+"features"
+"industry"
+"provided"
+"required"
+"articles"
+"feedback"
+"complete"
+"standard"
+"programs"
+"language"
+"password"
+"question"
+"building"
+"february"
+"analysis"
+"possible"
+"problems"
+"interest"
+"learning"
+"delivery"
+"original"
+"includes"
+"messages"
+"provides"
+"specific"
 "director"
 "planning"
 "database"
@@ -173,7 +173,7 @@ function getHintEthCost(level) {
   if (level >= 1501 && level <= 3000) return "0.000019";
   if (level >= 501 && level <= 1500) return "0.00001";
   if (level >= 101 && level <= 500) return "0.000009";
-  if (level >= 50 && level <= 100) return "0.00005";
+  if (level >= 10 && level <= 100) return "0.00005";
   return null;
 }
 
