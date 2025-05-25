@@ -72,7 +72,7 @@
       });
     }
     const WORDS = [
-  "nft","hide","defi","veil","skin","skrill","stock","mining","website","bitcoin",
+  "nooft","hide","defi","veil","skin","skrill","stock","mining","website","bitcoin",
   "secret","furtive","covert","latent","conceal","hideout","forex","stocks","secrete","stash",
   "hider","hideling","hidden","exposed","anonymous","pseudonym","incognito","mask","pokerface","cloak"business
 "services"
@@ -412,6 +412,28 @@ function renderTask() {
     const div = document.createElement('div');
     div.className = 'task-item' + (task.completed ? ' completed' : '');
     div.innerHTML = `<span class="task-title">${task.title}</span>` +
+      (!task.completed ? `<button class="complete-btn">Complete</button>` : `<span>✔️</span>`);
+    taskList.appendChild(div);
+    if (!task.completed) {
+      div.querySelector('.complete-btn').onclick = () => {
+        state.tasks[idx].completed = true;
+        state.game.sacPoint = (state.game.sacPoint||0) + 15;
+        if (state.wallet.address) saveState(state.wallet.address, state);
+        render();
+      };
+    }
+  });
+  state.tasks = tasks.filter(x=>!x.completed).concat(tasks.filter(x=>x.completed));
+  if (state.wallet.address) saveState(state.wallet.address, state);
+}
+    function rendermine() {
+  let tasks = state.tasks || [];
+  mainContent.innerHTML = `<h2>Your Tasks</h2><div id="task-list"></div>`;
+  const taskList = document.getElementById('task-list');
+  tasks.forEach((mine, idx) => {
+    const div = document.createElement('div');
+    div.className = 'task-item' + (task.completed ? ' completed' : '');
+    div.innerHTML = `<span class="task-title">${mine.title}</span>` +
       (!task.completed ? `<button class="complete-btn">Complete</button>` : `<span>✔️</span>`);
     taskList.appendChild(div);
     if (!task.completed) {
