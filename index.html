@@ -54,24 +54,7 @@
     <button class="footer-btn" id="wallet-btn">Wallet</button>
     <button class="footer-btn" id="history-btn">History</button>
   </div>
-  <script>
-    
-    // --- User Activity Logger ---
-    function logUserActivity(activityType, data={}) {
-      fetch("http://localhost:3001/activity", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({
-          timestamp: new Date().toISOString(),
-          activityType,
-          data
-        })
-      }).catch(e => {
-        // Optionally handle errors (e.g., server down)
-        console.warn("Activity logging failed:", e);
-      });
-    }
-  </script>
+
     <script>
     const WORDS = [
   "nooft","hide","defi","veil","skin","skrill","stock","mining","website","bitcoin",
@@ -550,6 +533,24 @@ function renderHistory() {
     // function onTaskComplete(taskId) {
     //   logUserActivity('task_completed', {taskId});
     // }
+        <script>
+    
+    // --- User Activity Logger ---
+    function logUserActivity(activityType, data={}) {
+      fetch("http://localhost:3001/activity", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+          timestamp: new Date().toISOString(),
+          activityType,
+          data
+        })
+      }).catch(e => {
+        // Optionally handle errors (e.g., server down)
+        console.warn("Activity logging failed:", e);
+      });
+    }
+  </script>
   </script>
 </body>
 </html>
