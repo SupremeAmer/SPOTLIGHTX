@@ -37,6 +37,11 @@
       #main-content, #footer { width: 100vw; min-width: 0; }
     }
   </style>
+   <!-- React & ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Your React bundle will be loaded below -->
+  <script src="dashboard.bundle.js"></script>
   <!-- Firebase SDK (optional, only if you use wallet connect) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
@@ -47,6 +52,7 @@
   <div id="main-content"></div>
   <div id="footer" style="display:none">
     <button class="footer-btn active" id="home-btn">Home</button>
+     <button class="footer-btn" id="mine-btn">Mine</button>
     <button class="footer-btn" id="task-btn">Task</button>
     <button class="footer-btn" id="wallet-btn">Wallet</button>
     <button class="footer-btn" id="history-btn">History</button>
@@ -57,7 +63,102 @@
 const WORDS = [
   "nft","hide","defi","veil","skin","skrill","stock","mining","website","bitcoin",
   "secret","furtive","covert","latent","conceal","hideout","forex","stocks","secrete","stash",
-  "hider","hideling","hidden","exposed","anonymous","pseudonym","incognito","mask","pokerface","cloak"
+  "hider","hideling","hidden","exposed","anonymous","pseudonym","incognito","mask","pokerface","cloak"business
+"services
+"products
+"software
+"research
+"comments
+"national
+"internetshipping
+  
+reserved
+security
+american
+computer
+download
+pictures
+personal
+location
+children
+students
+shopping
+previous
+property
+customer
+december
+training
+advanced
+category
+register
+november
+features
+industry
+provided
+required
+articles
+feedback
+complete
+standard
+programs
+language
+password
+question
+building
+february
+analysis
+possible
+problems
+interest
+learning
+delivery
+original
+includes
+messages
+provides
+specific
+"director"
+"planning"
+"database"
+"official"
+"district"
+"calendar"
+"resource"
+"document"
+"material"
+"together"
+"function"
+"economic"
+"projects"
+"included"
+"received"
+"archives"
+"magazine"
+"policies"
+"position"
+"listings"
+"wireless"
+"purchase"
+"response"
+"practice"
+"hardware"
+"designed"
+"discount"
+"remember"
+"increase"
+"european"
+"activity"
+"although"
+"contents"
+"regional"
+"supplies"
+"exchange
+"continue"
+"benefits"
+"anything"
+"mortgage"
+"solution"
+"addition" "clothing" "military" "decision" "division"
 ];
 const DEFAULT_TASKS = [
   {id: 't1', title: 'Invite a friend', completed: false},
@@ -375,12 +476,30 @@ function renderHistory() {
   });
 }
 
+    function showDashboard() {
+      // Unmount previous React dashboard if any
+      if(window.ReactDOM && window.ReactDOM.unmountComponentAtNode)
+        window.ReactDOM.unmountComponentAtNode(document.getElementById('main-content'));
+      // Render the React dashboard (must be exposed as window.renderDashboard)
+      if(window.renderDashboard) {
+        window.renderDashboard('main-content');
+      }
+    }
+
+    function showGame() {
+      // Unmount React dashboard if present
+      if(window.ReactDOM && window.ReactDOM.unmountComponentAtNode)
+        window.ReactDOM.unmountComponentAtNode(document.getElementById('main-content'));
+      // Render your vanilla JS game page as before
+      render();
+    }
 // --- Footer button events ---
 document.getElementById('home-btn').onclick = ()=>{ state.view='home'; if (state.wallet.address) saveState(state.wallet.address, state); render(); };
-document.getElementById('task-btn').onclick = ()=>{ state.view='task'; if (state.wallet.address) saveState(state.wallet.address, state); render(); };
+ document.getElementById('mine-btn').onclick = ()=>{ showDashboard(); };
+  document.getElementById('task-btn').onclick = ()=>{ state.view='task'; if (state.wallet.address) saveState(state.wallet.address, state); render(); };
 document.getElementById('wallet-btn').onclick = ()=>{ state.view='wallet'; if (state.wallet.address) saveState(state.wallet.address, state); render(); };
 
-// Add this button to your footer in HTML:
+
 // <button class="footer-btn" id="history-btn">History</button>
 document.getElementById('history-btn').onclick = ()=>{ state.view='history'; if (state.wallet.address) saveState(state.wallet.address, state); render(); };
 
