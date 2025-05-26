@@ -495,19 +495,7 @@ function renderHistory() {
   });
 }
 
-    // --- Dashboard integration logic below ---
-    function showDashboard() {
-      logUserActivity('mine_button_click');
-      // Unmount previous React dashboard if any
-      if(window.ReactDOM && window.ReactDOM.unmountComponentAtNode)
-        window.ReactDOM.unmountComponentAtNode(document.getElementById('main-content'));
-      // Render the React dashboard (must be exposed as window.renderDashboard)
-      if(window.renderDashboard) {
-        window.renderDashboard('main-content');
-      } else {
-        document.getElementById('main-content').innerHTML = "<div style='color:#a00;font-weight:bold;'>Dashboard not found. Please check your dashboard.bundle.js.</div>";
-      }
-    }
+   
 
     function showGame() {
       // Unmount React dashboard if present
